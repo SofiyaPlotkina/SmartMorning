@@ -22,11 +22,8 @@ body {
     min-height: 100vh;
 }
 
-/* style.css */
+/* --- REGEN ANIMATION START (8-Bit Style - Links unten) --- */
 
-/* --- REGEN ANIMATION START (Neuer 8-Bit Style) --- */
-
-/* Container für den Regen */
 .rain-overlay {
     position: fixed;
     top: 0;
@@ -35,37 +32,27 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    overflow: hidden; /* Wichtig, damit der Regen nicht aus dem Bild fällt */
+    overflow: hidden;
 }
 
-/* Klasse zum Ausblenden */
 .hidden {
     display: none !important;
 }
 
-/* Basis für alle Regenebenen */
 .rain-layer {
     position: absolute;
     left: 0;
     width: 100%;
-    /* Wir brauchen die doppelte Höhe für einen nahtlosen Loop */
     height: 200vh; 
     background: transparent;
-    /* Startposition oberhalb des sichtbaren Bereichs */
     top: -100vh;
 }
 
-/* Die "Magie" des 8-Bit Regens:
-   Wir nutzen ein Pseudo-Element (::after), das 1px breit und wenige Pixel hoch ist.
-   Über 'box-shadow' erstellen wir hunderte Kopien davon an zufälligen Positionen.
-   Farbe: Ein helles Pixel-Blau (#a8d8ff)
-*/
-
-/* === TEIL 1: Umwelt-Regen (Fallende diagonale Pixel) === */
+/* === TEIL 1: Umwelt-Regen (Fallende diagonale Pixel nach LINKS) === */
 
 /* Nahe Ebene: Schneller, heller, dichter */
 .env-rain-near {
-    animation: diagonal-fall 0.8s linear infinite;
+    animation: diagonal-fall-left 0.8s linear infinite;
     z-index: 2;
     opacity: 0.9;
 }
@@ -73,20 +60,37 @@ body {
 .env-rain-near::after {
     content: '';
     position: absolute;
-    width: 2px;  /* Etwas breiter für den "nahen" Look */
-    height: 6px; /* Kurze Streifen wie im GIF */
+    width: 2px;
+    height: 6px;
     background: transparent;
-    /* Hier sind die Koordinaten für hunderte Tropfen.
-       Format: X-Pos Y-Pos Farbe
-    */
+    /* Koordinaten erweitert bis ca. 115vw, damit sie von rechts reinfallen */
     box-shadow: 
-        10vw 15vh #a8d8ff, 35vw 82vh #a8d8ff, 81vw 62vh #a8d8ff, 5vw 95vh #a8d8ff, 92vw 12vh #a8d8ff, 48vw 45vh #a8d8ff, 23vw 33vh #a8d8ff, 67vw 78vh #a8d8ff, 15vw 55vh #a8d8ff, 88vw 25vh #a8d8ff, 52vw 88vh #a8d8ff, 3vw 66vh #a8d8ff, 75vw 18vh #a8d8ff, 42vw 9vh #a8d8ff, 28vw 52vh #a8d8ff, 95vw 41vh #a8d8ff, 61vw 3vh #a8d8ff, 19vw 91vh #a8d8ff, 33vw 22vh #a8d8ff, 85vw 71vh #a8d8ff, 7vw 39vh #a8d8ff, 58vw 64vh #a8d8ff, 46vw 14vh #a8d8ff, 71vw 57vh #a8d8ff, 25vw 85vh #a8d8ff, 91vw 98vh #a8d8ff, 39vw 31vh #a8d8ff, 12vw 48vh #a8d8ff, 65vw 92vh #a8d8ff, 79vw 5vh #a8d8ff, 55vw 76vh #a8d8ff, 21vw 61vh #a8d8ff, 98vw 29vh #a8d8ff, 44vw 51vh #a8d8ff, 8vw 75vh #a8d8ff, 82vw 89vh #a8d8ff, 31vw 8vh #a8d8ff, 69vw 42vh #a8d8ff, 17vw 27vh #a8d8ff, 51vw 96vh #a8d8ff, 93vw 68vh #a8d8ff, 37vw 44vh #a8d8ff, 63vw 21vh #a8d8ff, 2vw 58vh #a8d8ff, 73vw 83vh #a8d8ff, 27vw 94vh #a8d8ff, 86vw 11vh #a8d8ff, 49vw 36vh #a8d8ff, 14vw 72vh #a8d8ff, 57vw 81vh #a8d8ff, 96vw 53vh #a8d8ff,
-        12vw 115vh #a8d8ff, 32vw 182vh #a8d8ff, 85vw 162vh #a8d8ff, 2vw 195vh #a8d8ff, 96vw 112vh #a8d8ff, 45vw 145vh #a8d8ff, 28vw 133vh #a8d8ff, 62vw 178vh #a8d8ff, 18vw 155vh #a8d8ff, 82vw 125vh #a8d8ff, 56vw 188vh #a8d8ff, 6vw 166vh #a8d8ff, 72vw 118vh #a8d8ff, 46vw 109vh #a8d8ff, 22vw 152vh #a8d8ff, 91vw 141vh #a8d8ff, 66vw 103vh #a8d8ff, 15vw 191vh #a8d8ff, 38vw 122vh #a8d8ff, 89vw 171vh #a8d8ff, 3vw 139vh #a8d8ff, 52vw 164vh #a8d8ff, 49vw 114vh #a8d8ff, 75vw 157vh #a8d8ff, 29vw 185vh #a8d8ff, 95vw 198vh #a8d8ff, 35vw 131vh #a8d8ff, 16vw 148vh #a8d8ff, 69vw 192vh #a8d8ff, 76vw 105vh #a8d8ff, 51vw 176vh #a8d8ff, 25vw 161vh #a8d8ff, 93vw 129vh #a8d8ff, 41vw 151vh #a8d8ff, 4vw 175vh #a8d8ff, 86vw 189vh #a8d8ff, 36vw 108vh #a8d8ff, 64vw 142vh #a8d8ff, 12vw 127vh #a8d8ff, 55vw 196vh #a8d8ff, 98vw 168vh #a8d8ff, 31vw 144vh #a8d8ff, 67vw 121vh #a8d8ff, 8vw 158vh #a8d8ff, 79vw 183vh #a8d8ff, 21vw 194vh #a8d8ff, 83vw 111vh #a8d8ff, 44vw 136vh #a8d8ff, 19vw 172vh #a8d8ff, 53vw 181vh #a8d8ff, 99vw 153vh #a8d8ff;
+        10vw 15vh #a8d8ff, 35vw 82vh #a8d8ff, 81vw 62vh #a8d8ff, 105vw 95vh #a8d8ff, 92vw 12vh #a8d8ff, 
+        48vw 45vh #a8d8ff, 23vw 33vh #a8d8ff, 67vw 78vh #a8d8ff, 15vw 55vh #a8d8ff, 88vw 25vh #a8d8ff, 
+        52vw 88vh #a8d8ff, 110vw 66vh #a8d8ff, 75vw 18vh #a8d8ff, 42vw 9vh #a8d8ff, 28vw 52vh #a8d8ff, 
+        95vw 41vh #a8d8ff, 61vw 3vh #a8d8ff, 19vw 91vh #a8d8ff, 102vw 22vh #a8d8ff, 85vw 71vh #a8d8ff, 
+        7vw 39vh #a8d8ff, 58vw 64vh #a8d8ff, 46vw 14vh #a8d8ff, 71vw 57vh #a8d8ff, 25vw 85vh #a8d8ff, 
+        91vw 98vh #a8d8ff, 39vw 31vh #a8d8ff, 112vw 48vh #a8d8ff, 65vw 92vh #a8d8ff, 79vw 5vh #a8d8ff, 
+        55vw 76vh #a8d8ff, 21vw 61vh #a8d8ff, 98vw 29vh #a8d8ff, 44vw 51vh #a8d8ff, 8vw 75vh #a8d8ff, 
+        82vw 89vh #a8d8ff, 31vw 8vh #a8d8ff, 69vw 42vh #a8d8ff, 17vw 27vh #a8d8ff, 51vw 96vh #a8d8ff, 
+        93vw 68vh #a8d8ff, 37vw 44vh #a8d8ff, 63vw 21vh #a8d8ff, 108vw 58vh #a8d8ff, 73vw 83vh #a8d8ff, 
+        27vw 94vh #a8d8ff, 86vw 11vh #a8d8ff, 49vw 36vh #a8d8ff, 14vw 72vh #a8d8ff, 57vw 81vh #a8d8ff, 
+        96vw 53vh #a8d8ff, 12vw 115vh #a8d8ff, 32vw 182vh #a8d8ff, 85vw 162vh #a8d8ff, 102vw 195vh #a8d8ff, 
+        96vw 112vh #a8d8ff, 45vw 145vh #a8d8ff, 28vw 133vh #a8d8ff, 62vw 178vh #a8d8ff, 18vw 155vh #a8d8ff, 
+        82vw 125vh #a8d8ff, 56vw 188vh #a8d8ff, 106vw 166vh #a8d8ff, 72vw 118vh #a8d8ff, 46vw 109vh #a8d8ff, 
+        22vw 152vh #a8d8ff, 91vw 141vh #a8d8ff, 66vw 103vh #a8d8ff, 15vw 191vh #a8d8ff, 38vw 122vh #a8d8ff, 
+        89vw 171vh #a8d8ff, 103vw 139vh #a8d8ff, 52vw 164vh #a8d8ff, 49vw 114vh #a8d8ff, 75vw 157vh #a8d8ff, 
+        29vw 185vh #a8d8ff, 95vw 198vh #a8d8ff, 35vw 131vh #a8d8ff, 116vw 148vh #a8d8ff, 69vw 192vh #a8d8ff, 
+        76vw 105vh #a8d8ff, 51vw 176vh #a8d8ff, 25vw 161vh #a8d8ff, 93vw 129vh #a8d8ff, 41vw 151vh #a8d8ff, 
+        104vw 175vh #a8d8ff, 86vw 189vh #a8d8ff, 36vw 108vh #a8d8ff, 64vw 142vh #a8d8ff, 12vw 127vh #a8d8ff, 
+        55vw 196vh #a8d8ff, 98vw 168vh #a8d8ff, 31vw 144vh #a8d8ff, 67vw 121vh #a8d8ff, 108vw 158vh #a8d8ff, 
+        79vw 183vh #a8d8ff, 21vw 194vh #a8d8ff, 83vw 111vh #a8d8ff, 44vw 136vh #a8d8ff, 19vw 172vh #a8d8ff, 
+        53vw 181vh #a8d8ff, 99vw 153vh #a8d8ff;
 }
 
 /* Ferne Ebene: Langsamer, dünner, transparenter */
 .env-rain-far {
-    animation: diagonal-fall 1.2s linear infinite;
+    animation: diagonal-fall-left 1.2s linear infinite;
     z-index: 1;
     opacity: 0.5;
 }
@@ -94,30 +98,40 @@ body {
 .env-rain-far::after {
     content: '';
     position: absolute;
-    width: 1px;  /* Dünnere Pixel */
-    height: 4px; /* Kürzere Streifen */
+    width: 1px;
+    height: 4px;
     background: transparent;
-    /* Andere Koordinaten für Tiefe */
     box-shadow: 
-        8vw 8vh #90c0e8, 92vw 91vh #90c0e8, 25vw 34vh #90c0e8, 67vw 12vh #90c0e8, 41vw 76vh #90c0e8, 83vw 55vh #90c0e8, 14vw 22vh #90c0e8, 58vw 89vh #90c0e8, 32vw 61vh #90c0e8, 75vw 43vh #90c0e8, 5vw 15vh #90c0e8, 98vw 66vh #90c0e8, 49vw 28vh #90c0e8, 21vw 81vh #90c0e8, 62vw 37vh #90c0e8, 88vw 94vh #90c0e8, 36vw 5vh #90c0e8, 11vw 52vh #90c0e8, 72vw 71vh #90c0e8, 54vw 19vh #90c0e8, 29vw 47vh #90c0e8, 95vw 85vh #90c0e8, 17vw 64vh #90c0e8, 46vw 98vh #90c0e8, 81vw 24vh #90c0e8, 64vw 58vh #90c0e8, 3vw 31vh #90c0e8, 39vw 9vh #90c0e8, 78vw 83vh #90c0e8, 52vw 41vh #90c0e8, 26vw 74vh #90c0e8, 90vw 17vh #90c0e8, 13vw 96vh #90c0e8, 69vw 26vh #90c0e8, 44vw 68vh #90c0e8, 7vw 53vh #90c0e8, 85vw 39vh #90c0e8, 34vw 87vh #90c0e8, 61vw 11vh #90c0e8, 23vw 45vh #90c0e8,
-        6vw 108vh #90c0e8, 96vw 191vh #90c0e8, 22vw 134vh #90c0e8, 69vw 112vh #90c0e8, 44vw 176vh #90c0e8, 86vw 155vh #90c0e8, 18vw 122vh #90c0e8, 55vw 189vh #90c0e8, 35vw 161vh #90c0e8, 78vw 143vh #90c0e8, 2vw 115vh #90c0e8, 93vw 166vh #90c0e8, 46vw 128vh #90c0e8, 19vw 181vh #90c0e8, 64vw 137vh #90c0e8, 82vw 194vh #90c0e8, 38vw 105vh #90c0e8, 14vw 152vh #90c0e8, 75vw 171vh #90c0e8, 51vw 119vh #90c0e8, 26vw 147vh #90c0e8, 99vw 185vh #90c0e8, 12vw 164vh #90c0e8, 49vw 198vh #90c0e8, 84vw 124vh #90c0e8, 67vw 158vh #90c0e8, 6vw 131vh #90c0e8, 32vw 109vh #90c0e8, 72vw 183vh #90c0e8, 57vw 141vh #90c0e8, 29vw 174vh #90c0e8, 94vw 117vh #90c0e8, 16vw 196vh #90c0e8, 62vw 126vh #90c0e8, 41vw 168vh #90c0e8, 9vw 153vh #90c0e8, 88vw 139vh #90c0e8, 31vw 187vh #90c0e8, 65vw 111vh #90c0e8, 25vw 145vh #90c0e8;
+        8vw 8vh #90c0e8, 92vw 91vh #90c0e8, 25vw 34vh #90c0e8, 67vw 12vh #90c0e8, 41vw 76vh #90c0e8, 
+        83vw 55vh #90c0e8, 14vw 22vh #90c0e8, 58vw 89vh #90c0e8, 32vw 61vh #90c0e8, 75vw 43vh #90c0e8, 
+        105vw 15vh #90c0e8, 98vw 66vh #90c0e8, 49vw 28vh #90c0e8, 21vw 81vh #90c0e8, 62vw 37vh #90c0e8, 
+        88vw 94vh #90c0e8, 36vw 5vh #90c0e8, 11vw 52vh #90c0e8, 72vw 71vh #90c0e8, 54vw 19vh #90c0e8, 
+        29vw 47vh #90c0e8, 95vw 85vh #90c0e8, 17vw 64vh #90c0e8, 46vw 98vh #90c0e8, 81vw 24vh #90c0e8, 
+        64vw 58vh #90c0e8, 103vw 31vh #90c0e8, 39vw 9vh #90c0e8, 78vw 83vh #90c0e8, 52vw 41vh #90c0e8, 
+        26vw 74vh #90c0e8, 90vw 17vh #90c0e8, 13vw 96vh #90c0e8, 69vw 26vh #90c0e8, 44vw 68vh #90c0e8, 
+        7vw 53vh #90c0e8, 85vw 39vh #90c0e8, 34vw 87vh #90c0e8, 61vw 11vh #90c0e8, 23vw 45vh #90c0e8,
+        6vw 108vh #90c0e8, 96vw 191vh #90c0e8, 22vw 134vh #90c0e8, 69vw 112vh #90c0e8, 44vw 176vh #90c0e8, 
+        86vw 155vh #90c0e8, 18vw 122vh #90c0e8, 55vw 189vh #90c0e8, 35vw 161vh #90c0e8, 78vw 143vh #90c0e8, 
+        102vw 115vh #90c0e8, 93vw 166vh #90c0e8, 46vw 128vh #90c0e8, 19vw 181vh #90c0e8, 64vw 137vh #90c0e8, 
+        82vw 194vh #90c0e8, 38vw 105vh #90c0e8, 14vw 152vh #90c0e8, 75vw 171vh #90c0e8, 51vw 119vh #90c0e8, 
+        26vw 147vh #90c0e8, 99vw 185vh #90c0e8, 112vw 164vh #90c0e8, 49vw 198vh #90c0e8, 84vw 124vh #90c0e8, 
+        67vw 158vh #90c0e8, 6vw 131vh #90c0e8, 32vw 109vh #90c0e8, 72vw 183vh #90c0e8, 57vw 141vh #90c0e8, 
+        29vw 174vh #90c0e8, 94vw 117vh #90c0e8, 16vw 196vh #90c0e8, 62vw 126vh #90c0e8, 41vw 168vh #90c0e8, 
+        109vw 153vh #90c0e8, 88vw 139vh #90c0e8, 31vw 187vh #90c0e8, 65vw 111vh #90c0e8, 25vw 145vh #90c0e8;
 }
 
-
-/* Die Animation für das diagonale Fallen */
-@keyframes diagonal-fall {
+/* Neue Animation: Nach links unten */
+@keyframes diagonal-fall-left {
     100% {
-        /* Bewegt sich nach unten UND nach rechts für den diagonalen Effekt */
-        transform: translateY(100vh) translateX(15vw);
+        /* translateX ist jetzt negativ (-15vw) -> Bewegung nach links */
+        transform: translateY(100vh) translateX(-15vw);
     }
 }
 
-/* === TEIL 2: Glas-Effekt (Tropfen die auf der Scheibe kleben) === */
-/* Diesen Teil lassen wir wie er ist, da er gut zu dem neuen Regen passt */
+/* === TEIL 2: Glas-Effekt (Bleibt gleich) === */
 .glass-rain {
     z-index: 3;
     opacity: 0.6;
-    /* Pixel-Punkte (Tropfen) an zufälligen Positionen */
     background-image: 
         radial-gradient(circle at 10% 15%, rgba(200, 230, 255, 0.8) 1px, transparent 2px),
         radial-gradient(circle at 25% 65%, rgba(200, 230, 255, 0.7) 2px, transparent 3px),

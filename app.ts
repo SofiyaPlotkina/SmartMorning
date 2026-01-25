@@ -16,16 +16,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const rainToggle = document.getElementById('rain-toggle') as HTMLInputElement;
     const rainContainer = document.getElementById('rain-container') as HTMLDivElement;
 
-    // --- MAPPING: Jahreszeit Wert zu Bilddatei ---
-    const backgrounds: BackgroundMap = {
-        'spring': 'images/bg-spring.png',
-        'summer': 'images/bg-summer.png',
-        'autumn': 'images/bg-autumn.png',
-        'winter': 'images/bg-winter.png'
+    // --- HELPER: Hintergrund aktualisieren ---
+    // Diese Funktion prüft BEIDE Zustände (Jahreszeit + Regen) und setzt das richtige Bild
+    const updateBackground = () => {
+        const season = seasonSelect.value;
+        const isRaining = rainToggle.checked;
+        
+        let imageUrl = '';
+
+        if (isRaining) {
+            // Logik für Regen-Bilder: "images/bg_spring_rain.png"
+            // Wichtig: Hier nutzen wir Unterstriche, wie in deinen Dateinamen
+            imageUrl = `images/bg_${season}_rain.png`;
+            
+            // Regen-Overlay anzeigen
+            rainContainer.classList.remove('hidden');
+            console.log(`Wetter: Regen (${season})`);
+        } else {
+            // Logik für normale Bilder: "images/bg-spring.png"
+            // Wichtig: Hier nutzen wir Bindestriche
+            imageUrl = `images/bg-${season}.png`;
+            
+            // Regen-Overlay verstecken
+            rainContainer.classList.add('hidden');
+            console.log(`Wetter: Klar (${season})`);
+        }
+
+        // Hintergrund setzen
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
     };
 
-
-    // --- 1. MENU LOGIK (Öffnen/Schließen) ---
+    // --- 1. MENÜ LOGIK ---
     settingsBtn.addEventListener('click', () => {
         settingsModal.classList.remove('hidden');
     });
@@ -40,37 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. JAHRESZEITEN LOGIK ---
-    seasonSelect.addEventListener('change', (e) => {
-        const target = e.target as HTMLSelectElement;
-        const selectedSeason = target.value;
-
-        console.log(`Versuche Jahreszeit zu ändern auf: ${selectedSeason}`);
-
-        if (backgrounds[selectedSeason]) {
-            document.body.style.backgroundImage = `url('${backgrounds[selectedSeason]}')`;
-            console.log('Hintergrund erfolgreich geändert.');
-        } else {
-            console.error(`Fehler: Kein Hintergrundbild für '${selectedSeason}' definiert.`);
-        }
+    // --- 2. EVENT LISTENER ---
+    
+    // Wenn die Jahreszeit geändert wird -> Hintergrund updaten
+    seasonSelect.addEventListener('change', () => {
+        updateBackground();
     });
 
-    // --- 3. REGEN TOGGLE LOGIK ---
-    const updateRain = () => {
-        if (rainToggle.checked) {
-            // Checkbox AN -> Regen sichtbar machen (hidden entfernen)
-            rainContainer.classList.remove('hidden');
-            console.log('Wetter: Regen aktiviert');
-        } else {
-            // Checkbox AUS -> Regen verstecken (hidden hinzufügen)
-            rainContainer.classList.add('hidden');
-            console.log('Wetter: Klar');
-        }
-    };
-
-    // Event Listener für Klick auf den Switch
-    rainToggle.addEventListener('change', updateRain);
+    // Wenn der Regen-Schalter betätigt wird -> Hintergrund updaten
+    rainToggle.addEventListener('change', () => {
+        updateBackground();
+    });
     
-    // Initialen Status prüfen (falls Browser den Haken beim Reload behält)
-    updateRain();
+    // --- INITIALISIERUNG ---
+    // Einmal beim Laden ausführen, um den korrekten Startzustand zu haben
+    updateBackground();
 });
