@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Mirroring OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="pixel-header">
+        <h1 class="pixel-title">smart Mirroring</h1>
+        
+        <button id="settings-btn" class="pixel-btn">SETUP</button>
+    </header>
+
+    <main class="content-area">
+        </main>
+
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="pixel-window">
+            <div class="window-header">
+                <span class="window-title">SYSTEM CONFIG</span>
+                <button id="close-modal-btn" class="pixel-close-btn">X</button>
+            </div>
+            
+            <div class="window-content">
+                <div class="control-group">
+                    <label for="season-select">SEASON:</label>
+                    <div class="pixel-select-wrapper">
+                        <select id="season-select" class="pixel-input">
+                            <option value="spring">SPRING</option>
+                            <option value="summer">SUMMER</option>
+                            <option value="autumn">AUTUMN</option>
+                            <option value="winter">WINTER</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>WEATHER:</label>
+                    <label class="pixel-toggle">
+                        <input type="checkbox" id="rain-toggle">
+                        <span class="slider"></span>
+                        <span class="label-text">RAIN</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

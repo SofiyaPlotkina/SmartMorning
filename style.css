@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1a1a1a;
+    font-family: 'Courier New', Courier, monospace;
+    image-rendering: pixelated;
+}
+
+/* --- Header & Title --- */
+.pixel-header {
+    background-color: #0b5685;
+    padding: 2rem 0;
+    text-align: center;
+    border-bottom: 4px solid #073d5e;
+    position: relative; /* Wichtig für die Positionierung des Buttons */
+}
+
+.pixel-title {
+    font-family: 'Press Start 2P', cursive;
+    color: #f6f7f8;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        4px 4px 0px #073d5e,
+        8px 8px 0px #04263a;
+}
+
+/* --- Settings Button (Oben Rechts) --- */
+#settings-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Press Start 2P', cursive;
+    background-color: #f6f7f8;
+    color: #0b5685;
+    border: 4px solid #073d5e;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #04263a;
+}
+
+#settings-btn:active {
+    transform: translateY(-46%); /* Button drückt sich rein */
+    box-shadow: 2px 2px 0px #04263a;
+}
+
+/* --- Content Area --- */
+.content-area {
+    min-height: 80vh;
+}
+
+/* --- Modal Overlay --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Retro Pixel Window --- */
+.pixel-window {
+    background-color: #f6f7f8;
+    width: 400px;
+    border: 4px solid #0b5685;
+    box-shadow: 8px 8px 0px #000;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.window-header {
+    background-color: #0b5685;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pixel-close-btn {
+    background: #c0392b;
+    border: 2px solid #fff;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+
+.window-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Controls Styling --- */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pixel-input {
+    font-family: 'Press Start 2P', cursive;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #0b5685;
+    background: #fff;
+    color: #1a1a1a;
+    outline: none;
+}
+
+/* --- Pixel Toggle Switch --- */
+.pixel-toggle {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.pixel-toggle input {
+    display: none; /* Hide default checkbox */
+}
+
+.slider {
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    position: relative;
+    border: 4px solid #1a1a1a;
+    display: inline-block;
+}
+
+/* Der "Knopf" im Switch */
+.slider::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #1a1a1a;
+    top: 4px;
+    left: 4px;
+    transition: 0.2s steps(1); /* Steps(1) macht die Bewegung 'pixelig' sprunghaft */
+}
+
+/* Active State (Checked) */
+.pixel-toggle input:checked + .slider {
+    background-color: #0b5685;
+}
+
+.pixel-toggle input:checked + .slider::after {
+    left: 34px;
+    background-color: #fff;
+}
