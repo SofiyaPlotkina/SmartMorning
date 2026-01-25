@@ -5,9 +5,34 @@
 }
 
 body {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a; /* Fallback Farbe */
     font-family: 'Courier New', Courier, monospace;
-    image-rendering: pixelated;
+    /* WICHTIG für Pixelart Bilder: Verhindert unscharfes Skalieren */
+    image-rendering: pixelated; 
+
+    /* --- Hintergrundbild Einstellungen --- */
+    /* Standardbild (Frühling) beim Laden */
+    background-image: url('images/bg-spring.png'); 
+    
+    /* Das Bild soll den gesamten Bereich abdecken, ohne verzerrt zu werden */
+    background-size: cover; 
+    
+    /* Das Bild wird zentriert */
+    background-position: center center;
+    
+    /* Das Bild wiederholt sich nicht */
+    background-repeat: no-repeat;
+    
+    /* Das Bild bleibt beim Scrollen fixiert (optional, wirkt aber oft besser) */
+    background-attachment: fixed;
+
+    /* Sorgt für einen weichen Übergang beim Bildwechsel (0.5 Sekunden) */
+    transition: background-image 0.5s ease-in-out;
+    
+    /* Damit der Header und Text gut lesbar bleiben, 
+       fügen wir einen leichten dunklen Schleier über das Hintergrundbild */
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+    min-height: 100vh;
 }
 
 /* --- Header & Title --- */
