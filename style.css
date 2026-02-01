@@ -139,7 +139,7 @@ body {
 
 @keyframes diagonal-fall-left {
     0% { transform: translateY(0) translateX(0); }
-    100% { transform: translateY(100vh) translateX(-10vw); }
+    100% { transform: translateY(100vh) translateX(-15vw); }
 }
 
 /* --- GLASS EFFEKT (Tropfen auf der Scheibe) --- */
@@ -284,7 +284,10 @@ body {
 /* --- SNOW ANIMATION --- */
 
 :root {
-    --snowflake-pixel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg transform='translate(28,28)'%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0zM3 0h1v1H3zM6 0h1v1H6zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM2 2h3v1H2zM0 3h7v1H0zM2 4h3v1H2zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5zM0 6h1v1H0zM3 6h1v1H3zM6 6h1v1H6z'/%3E%3C/g%3E%3C/svg%3E");
+    /* TRICK: Die viewBox ist jetzt RIESIG (256x256). 
+       Die kleine 7px Flocke schwimmt in einem riesigen leeren Raum.
+       Das reduziert die Anzahl der Flocken drastisch. */
+    --snowflake-pixel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Cg transform='translate(124,124)'%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0zM3 0h1v1H3zM6 0h1v1H6zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM2 2h3v1H2zM0 3h7v1H0zM2 4h3v1H2zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5zM0 6h1v1H0zM3 6h1v1H3zM6 6h1v1H6z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .snow-overlay {
@@ -306,6 +309,7 @@ body {
     image-rendering: pixelated;
 }
 
+/* --- BASIS SETUP --- */
 .snow-layer::before, .snow-layer::after {
     content: '';
     position: absolute;
@@ -315,74 +319,94 @@ body {
     height: 300vh;
     background-image: var(--snowflake-pixel);
     background-repeat: repeat;
-    animation-timing-function: linear;
+    /* Ease-in-out sorgt für weichere, weniger roboterhafte Bewegungen */
+    animation-timing-function: ease-in-out; 
     animation-iteration-count: infinite;
 }
 
+/* --- LAYER 1: VORDERGRUND (Größer, schneller) --- */
 .env-snow-near {
     z-index: 2;
-    opacity: 0.95;
+    opacity: 0.9;
 }
 
+/* Ebene A: Schwingt leicht */
 .env-snow-near::before {
-    animation-name: snow-fall-1;
-    animation-duration: 10s;
-    background-size: 60px 60px; 
+    animation-name: snow-chaos-1; /* Zick-Zack Muster 1 */
+    animation-duration: 12s;
+    background-size: 300px 300px; /* Großer Abstand */
     background-position: 0px 0px;
 }
 
+/* Ebene B: Schwingt stark in Gegenrichtung */
 .env-snow-near::after {
-    animation-name: snow-fall-2;
-    animation-duration: 14s;
-    background-size: 85px 85px; 
-    background-position: 40px 30px; 
+    animation-name: snow-chaos-2; /* Zick-Zack Muster 2 */
+    animation-duration: 16s;
+    background-size: 250px 250px; /* Noch größerer Abstand */
+    background-position: 50% 50px; 
 }
 
+/* --- LAYER 2: HINTERGRUND (Kleiner, langsamer) --- */
 .env-snow-far {
     z-index: 1;
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
+/* Ebene C */
 .env-snow-far::before {
-    animation-name: snow-fall-1;
-    animation-duration: 20s;
-    background-size: 40px 40px; 
-    background-position: 15px 15px;
-}
-
-.env-snow-far::after {
-    animation-name: snow-fall-2;
+    animation-name: snow-chaos-3; /* Nur leichtes Driften */
     animation-duration: 25s;
-    background-size: 55px 55px; 
-    background-position: -20px -50px;
+    background-size: 200px 200px; 
+    background-position: 20px 20px;
 }
 
+/* Ebene D */
+.env-snow-far::after {
+    animation-name: snow-chaos-1;
+    animation-duration: 30s;
+    background-size: 120px 120px; 
+    background-position: -40px -80px;
+}
+
+/* --- GLAS EFFEKT (Optional) --- */
 .glass-snow {
     z-index: 3;
     opacity: 0.3;
-    filter: blur(1px);
+    filter: blur(1.5px);
 }
-
 .glass-snow::after {
     animation-name: glass-drift;
-    animation-duration: 40s;
-    background-size: 90px 90px;
-    background-position: 10px 10px;
+    animation-duration: 45s;
+    background-size: 180px 180px;
 }
 
-@keyframes snow-fall-1 {
-    0% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(100vh) translateX(25px); }
-    100% { transform: translateY(200vh) translateX(0); }
+/* --- RANDOM KEYFRAMES (Das Chaos) --- */
+
+/* Muster 1: Sanftes Pendeln */
+@keyframes snow-chaos-1 {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(30px, 25vh); } /* Nach Rechts */
+    50%  { transform: translate(-20px, 50vh); } /* Nach Links */
+    75%  { transform: translate(10px, 75vh); }  /* Zurück zur Mitte */
+    100% { transform: translate(0, 100vh); }
 }
 
-@keyframes snow-fall-2 {
-    0% { transform: translateY(-50vh) translateX(0); }
-    50% { transform: translateY(50vh) translateX(-25px); }
-    100% { transform: translateY(150vh) translateX(0); }
+/* Muster 2: Weites Ausschwenken */
+@keyframes snow-chaos-2 {
+    0%   { transform: translate(0, -50vh); }
+    33%  { transform: translate(-40px, 10vh); } /* Stark nach Links */
+    66%  { transform: translate(40px, 80vh); }  /* Stark nach Rechts */
+    100% { transform: translate(0, 150vh); }
+}
+
+/* Muster 3: Langsames Driften */
+@keyframes snow-chaos-3 {
+    0%   { transform: translate(0, -20vh); }
+    50%  { transform: translate(15px, 40vh); }
+    100% { transform: translate(-10px, 100vh); }
 }
 
 @keyframes glass-drift {
     from { background-position: 0 0; }
-    to { background-position: 50px 300px; }
+    to { background-position: 60px 300px; }
 }
