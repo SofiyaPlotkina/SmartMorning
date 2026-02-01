@@ -25,7 +25,6 @@ body {
     background-position: center;
     background-attachment: fixed;
     transition: background-image 0.5s ease-in-out;
-    /* Dunkler Schleier */
     box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
     min-height: 100vh;
 }
@@ -273,7 +272,7 @@ body {
     background-color: #1a1a1a;
     top: 4px;
     left: 4px;
-    transition: 0.2s steps(1); /* Steps(1) für Pixel-Feeling */
+    transition: 0.2s steps(1);
 }
 
 .pixel-toggle input:checked + .slider { background-color: var(--primary-blue); }
@@ -284,87 +283,106 @@ body {
 
 /* --- SNOW ANIMATION --- */
 
+:root {
+    --snowflake-pixel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg transform='translate(28,28)'%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0zM3 0h1v1H3zM6 0h1v1H6zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM2 2h3v1H2zM0 3h7v1H0zM2 4h3v1H2zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5zM0 6h1v1H0zM3 6h1v1H3zM6 6h1v1H6z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 .snow-overlay {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 5;
-    overflow: hidden; /* KORRIGIERT: War vorher "block" (ungültig) */
+    overflow: hidden;
+    display: block;
 }
 
 .snow-layer {
     position: absolute;
     width: 100%;
-    height: 200vh;
-    top: -100vh;
+    height: 100vh;
+    top: 0;
     left: 0;
     background: transparent;
+    image-rendering: pixelated;
 }
 
-/* --- ANIMATIONEN --- */
-.env-snow-near, .env-snow-far {
-    animation: snow-fall-soft linear infinite;
+.snow-layer::before, .snow-layer::after {
+    content: '';
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    width: 100%;
+    height: 300vh;
+    background-image: var(--snowflake-pixel);
+    background-repeat: repeat;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
-/* LAYER 1: NEAR (Nah) */
 .env-snow-near {
-    animation-duration: 10s;
     z-index: 2;
-    opacity: 0.9;
+    opacity: 0.95;
+}
+
+.env-snow-near::before {
+    animation-name: snow-fall-1;
+    animation-duration: 10s;
+    background-size: 60px 60px; 
+    background-position: 0px 0px;
 }
 
 .env-snow-near::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* KORRIGIERT: Das fehlte in deinem Code! */
-    background-image: radial-gradient(circle, #ffffff 3px, transparent 3px);
-    background-size: 200px 200px;
+    animation-name: snow-fall-2;
+    animation-duration: 14s;
+    background-size: 85px 85px; 
+    background-position: 40px 30px; 
 }
 
-/* LAYER 2: FAR (Fern) */
 .env-snow-far {
-    animation-duration: 15s;
     z-index: 1;
-    opacity: 0.5;
+    opacity: 0.7;
+}
+
+.env-snow-far::before {
+    animation-name: snow-fall-1;
+    animation-duration: 20s;
+    background-size: 40px 40px; 
+    background-position: 15px 15px;
 }
 
 .env-snow-far::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Hier waren die Kreise definiert, aber oben fehlten sie */
-    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
-    background-size: 150px 150px;
+    animation-name: snow-fall-2;
+    animation-duration: 25s;
+    background-size: 55px 55px; 
+    background-position: -20px -50px;
 }
 
-/* LAYER 3: GLASS (Auf der Scheibe) */
 .glass-snow {
     z-index: 3;
-    opacity: 0.5;
-    background-image: 
-        radial-gradient(circle at 20% 30%, #fff 4px, transparent 5px),
-        radial-gradient(circle at 70% 60%, #fff 3px, transparent 4px),
-        radial-gradient(circle at 40% 80%, #fff 5px, transparent 6px);
-    background-size: 400px 400px;
-    animation: glass-drift 30s linear infinite;
+    opacity: 0.3;
     filter: blur(1px);
 }
 
-/* --- KEYFRAMES --- */
-@keyframes snow-fall-soft {
+.glass-snow::after {
+    animation-name: glass-drift;
+    animation-duration: 40s;
+    background-size: 90px 90px;
+    background-position: 10px 10px;
+}
+
+@keyframes snow-fall-1 {
     0% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(50vh) translateX(25px); }
-    100% { transform: translateY(100vh) translateX(0); }
+    50% { transform: translateY(100vh) translateX(25px); }
+    100% { transform: translateY(200vh) translateX(0); }
+}
+
+@keyframes snow-fall-2 {
+    0% { transform: translateY(-50vh) translateX(0); }
+    50% { transform: translateY(50vh) translateX(-25px); }
+    100% { transform: translateY(150vh) translateX(0); }
 }
 
 @keyframes glass-drift {
     from { background-position: 0 0; }
-    to { background-position: 150px 400px; }
+    to { background-position: 50px 300px; }
 }
