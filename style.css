@@ -67,67 +67,100 @@ body {
 .rain-layer {
     position: absolute;
     width: 100%;
-    height: 200vh;
+    height: 200vh; 
     top: -100vh;
     background: transparent;
 }
 
-/* Umwelt-Regen (Diagonaler Fall nach links) */
 .env-rain-near, .env-rain-far {
     animation: diagonal-fall-left linear infinite;
 }
 
 .env-rain-near {
-    animation-duration: 0.8s;
+    animation-duration: 0.7s; 
     z-index: 2;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 .env-rain-near::after {
     content: '';
     position: absolute;
     width: 2px;
-    height: 6px;
+    height: 10px; 
     box-shadow: 
-        10vw 15vh var(--rain-color-near), 35vw 82vh var(--rain-color-near), 
-        81vw 62vh var(--rain-color-near), 92vw 12vh var(--rain-color-near),
-        48vw 45vh var(--rain-color-near), 23vw 33vh var(--rain-color-near),
-        10vw 115vh var(--rain-color-near), 35vw 182vh var(--rain-color-near);
+        1vw 5vh var(--rain-color-near), 15vw 15vh var(--rain-color-near), 
+        30vw 25vh var(--rain-color-near), 45vw 35vh var(--rain-color-near),
+        60vw 5vh var(--rain-color-near), 75vw 15vh var(--rain-color-near),
+        90vw 25vh var(--rain-color-near), 5vw 45vh var(--rain-color-near),
+        20vw 55vh var(--rain-color-near), 35vw 65vh var(--rain-color-near),
+        50vw 75vh var(--rain-color-near), 65vw 85vh var(--rain-color-near),
+        80vw 95vh var(--rain-color-near), 95vw 55vh var(--rain-color-near),
+        10vw 105vh var(--rain-color-near), 25vw 115vh var(--rain-color-near),
+        40vw 125vh var(--rain-color-near), 55vw 135vh var(--rain-color-near),
+        70vw 145vh var(--rain-color-near), 85vw 155vh var(--rain-color-near),
+        3vw 165vh var(--rain-color-near), 18vw 175vh var(--rain-color-near),
+        33vw 185vh var(--rain-color-near), 48vw 195vh var(--rain-color-near),
+        63vw 110vh var(--rain-color-near), 78vw 120vh var(--rain-color-near),
+        92vw 130vh var(--rain-color-near), 12vw 160vh var(--rain-color-near);
 }
 
 .env-rain-far {
-    animation-duration: 1.2s;
+    animation-duration: 1.1s;
     z-index: 1;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .env-rain-far::after {
     content: '';
     position: absolute;
     width: 1px;
-    height: 4px;
+    height: 5px;
     box-shadow: 
-        8vw 8vh var(--rain-color-far), 92vw 91vh var(--rain-color-far), 
-        25vw 34vh var(--rain-color-far), 67vw 12vh var(--rain-color-far),
-        8vw 108vh var(--rain-color-far), 92vw 191vh var(--rain-color-far);
+        2vw 2vh var(--rain-color-far), 12vw 12vh var(--rain-color-far), 
+        22vw 22vh var(--rain-color-far), 32vw 32vh var(--rain-color-far),
+        42vw 42vh var(--rain-color-far), 52vw 52vh var(--rain-color-far),
+        62vw 62vh var(--rain-color-far), 72vw 72vh var(--rain-color-far),
+        82vw 82vh var(--rain-color-far), 92vw 92vh var(--rain-color-far),
+        5vw 95vh var(--rain-color-far), 15vw 85vh var(--rain-color-far),
+        25vw 75vh var(--rain-color-far), 35vw 65vh var(--rain-color-far),
+        45vw 55vh var(--rain-color-far), 55vw 45vh var(--rain-color-far),
+        65vw 35vh var(--rain-color-far), 75vw 25vh var(--rain-color-far),
+        85vw 15vh var(--rain-color-far), 95vw 5vh var(--rain-color-far),
+        8vw 108vh var(--rain-color-far), 18vw 118vh var(--rain-color-far),
+        28vw 128vh var(--rain-color-far), 38vw 138vh var(--rain-color-far),
+        48vw 148vh var(--rain-color-far), 58vw 158vh var(--rain-color-far),
+        68vw 168vh var(--rain-color-far), 78vw 178vh var(--rain-color-far),
+        88vw 188vh var(--rain-color-far), 98vw 198vh var(--rain-color-far),
+        1vw 190vh var(--rain-color-far), 11vw 180vh var(--rain-color-far),
+        21vw 170vh var(--rain-color-far), 31vw 160vh var(--rain-color-far),
+        41vw 150vh var(--rain-color-far), 51vw 140vh var(--rain-color-far),
+        61vw 130vh var(--rain-color-far), 71vw 120vh var(--rain-color-far),
+        81vw 110vh var(--rain-color-far), 91vw 102vh var(--rain-color-far);
 }
 
 @keyframes diagonal-fall-left {
-    to { transform: translateY(100vh) translateX(-15vw); }
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(100vh) translateX(-10vw); }
 }
 
+/* --- GLASS EFFEKT (Tropfen auf der Scheibe) --- */
 .glass-rain {
     z-index: 3;
-    opacity: 0.6;
+    opacity: 0.5;
     background-image: 
-        radial-gradient(circle at 10% 15%, rgba(200, 230, 255, 0.8) 1px, transparent 2px),
-        radial-gradient(circle at 50% 50%, rgba(200, 230, 255, 0.7) 1px, transparent 2px);
+        radial-gradient(circle at 10% 15%, rgba(200, 230, 255, 0.9) 1px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(200, 230, 255, 0.8) 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, rgba(200, 230, 255, 0.8) 1px, transparent 2px),
+        radial-gradient(circle at 30% 80%, rgba(200, 230, 255, 0.7) 2px, transparent 3px),
+        radial-gradient(circle at 90% 90%, rgba(200, 230, 255, 0.6) 1px, transparent 2px),
+        radial-gradient(circle at 15% 60%, rgba(200, 230, 255, 0.7) 1.5px, transparent 2.5px);
     background-size: 300px 300px;
-    animation: glass-trickle 20s linear infinite;
+    animation: glass-trickle 15s linear infinite; 
 }
 
 @keyframes glass-trickle {
-    to { background-position: 0 300px; }
+    from { background-position: 0 0; }
+    to { background-position: 20px 300px; }
 }
 
 /* --- UI ELEMENTE --- */
@@ -247,4 +280,91 @@ body {
 .pixel-toggle input:checked + .slider::after {
     left: 34px;
     background-color: #fff;
+}
+
+/* --- SNOW ANIMATION --- */
+
+.snow-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden; /* KORRIGIERT: War vorher "block" (ungültig) */
+}
+
+.snow-layer {
+    position: absolute;
+    width: 100%;
+    height: 200vh;
+    top: -100vh;
+    left: 0;
+    background: transparent;
+}
+
+/* --- ANIMATIONEN --- */
+.env-snow-near, .env-snow-far {
+    animation: snow-fall-soft linear infinite;
+}
+
+/* LAYER 1: NEAR (Nah) */
+.env-snow-near {
+    animation-duration: 10s;
+    z-index: 2;
+    opacity: 0.9;
+}
+
+.env-snow-near::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* KORRIGIERT: Das fehlte in deinem Code! */
+    background-image: radial-gradient(circle, #ffffff 3px, transparent 3px);
+    background-size: 200px 200px;
+}
+
+/* LAYER 2: FAR (Fern) */
+.env-snow-far {
+    animation-duration: 15s;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+.env-snow-far::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Hier waren die Kreise definiert, aber oben fehlten sie */
+    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 150px 150px;
+}
+
+/* LAYER 3: GLASS (Auf der Scheibe) */
+.glass-snow {
+    z-index: 3;
+    opacity: 0.5;
+    background-image: 
+        radial-gradient(circle at 20% 30%, #fff 4px, transparent 5px),
+        radial-gradient(circle at 70% 60%, #fff 3px, transparent 4px),
+        radial-gradient(circle at 40% 80%, #fff 5px, transparent 6px);
+    background-size: 400px 400px;
+    animation: glass-drift 30s linear infinite;
+    filter: blur(1px);
+}
+
+/* --- KEYFRAMES --- */
+@keyframes snow-fall-soft {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(50vh) translateX(25px); }
+    100% { transform: translateY(100vh) translateX(0); }
+}
+
+@keyframes glass-drift {
+    from { background-position: 0 0; }
+    to { background-position: 150px 400px; }
 }
