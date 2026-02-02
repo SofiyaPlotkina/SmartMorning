@@ -39,11 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const season = seasonSelect.value;
         const isRaining = rainToggle.checked;
         const isSnowing = snowToggle.checked;
-        let suffix = isRaining ? '_rain' : (isSnowing ? '_snow' : '');
+        let suffix = '';
+        if (isRaining)
+            suffix = '_rain';
+        else if (isSnowing)
+            suffix = '_snow';
         const fileName = `bg_${season}${suffix}.png`;
         document.body.style.backgroundImage = `url('images/${fileName}')`;
         rainContainer.classList.toggle('hidden', !isRaining);
         snowContainer.classList.toggle('hidden', !isSnowing);
+    };
+    // HILFSFUNKTION: Jahreszeit anhand des Datums ermitteln
+    const getSeasonByDate = () => {
+        const month = new Date().getMonth(); // 0 = Januar, 11 = Dezember
+        // Winter: Dez (11), Jan (0), Feb (1)
+        if (month === 11 || month === 0 || month === 1)
+            return 'winter';
+        // Frühling: Mär (2), Apr (3), Mai (4)
+        if (month >= 2 && month <= 4)
+            return 'spring';
+        // Sommer: Jun (5), Jul (6), Aug (7)
+        if (month >= 5 && month <= 7)
+            return 'summer';
+        // Herbst: Sep (8), Okt (9), Nov (10)
+        return 'autumn';
     };
     // 3. EVENT LISTENER (UI)
     seasonSelect.addEventListener('change', () => { updateSnowAvailability(); updateEnvironment(); });
@@ -75,9 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`https://api.weatherapi.com/v1/search.json?key=${API_KEY}&q=${query}`);
             const locations = await response.json();
             locationList.innerHTML = '';
-            // --- FILTER LOGIK START ---
-            // 1. Wir filtern Begriffe wie "Airport" aus
-            // 2. Wir nutzen ein Set, um nur eindeutige Namen zu behalten
             const uniqueNames = new Set();
             const filteredLocations = locations.filter((loc) => {
                 const name = loc.name;
@@ -89,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return false;
             });
-            // --- FILTER LOGIK ENDE ---
             if (filteredLocations.length > 0) {
                 filteredLocations.forEach((loc) => {
                     const li = document.createElement('li');
@@ -153,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok)
                 throw new Error();
             const data = await response.json();
+            // --- UI Text Updates ---
             if (weatherTemp)
                 weatherTemp.innerText = `${Math.round(data.current.temp_c)}°C`;
             if (weatherDesc)
@@ -160,8 +176,34 @@ document.addEventListener('DOMContentLoaded', () => {
             if (weatherIcon) {
                 weatherIcon.src = getLocalIconPath(data.current.condition.code, data.current.is_day === 1);
             }
+            // --- DYNAMISCHE HINTERGRUND & WETTER LOGIK ---
+            // 1. Wetter-Code analysieren (Regen/Schnee Codes von WeatherAPI)
+            const code = data.current.condition.code;
+            // Erweiterte Liste für Regen (inkl. Schauer, Nieselregen etc.)
+            const rainCodes = [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276];
+            // Erweiterte Liste für Schnee (inkl. Schneeschauer, Blizzard etc.)
+            const snowCodes = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1255, 1258, 1261, 1264, 1279, 1282];
+            const isRaining = rainCodes.includes(code);
+            const isSnowing = snowCodes.includes(code);
+            // 2. Jahreszeit berechnen
+            let currentSeason = getSeasonByDate();
+            // SONDERFALL: Wenn es schneit, erzwingen wir "Winter", da es nur für Winter ein Schnee-Hintergrundbild gibt.
+            if (isSnowing) {
+                currentSeason = 'winter';
+            }
+            // 3. UI-Elemente aktualisieren (behält manuelle Kontrolle bei, setzt aber auf aktuelle Werte)
+            if (seasonSelect)
+                seasonSelect.value = currentSeason;
+            if (rainToggle)
+                rainToggle.checked = isRaining;
+            if (snowToggle)
+                snowToggle.checked = isSnowing;
+            // 4. Visuelles Update triggern
+            updateSnowAvailability(); // Aktiviert/Deaktiviert Snow-Toggle basierend auf Jahreszeit
+            updateEnvironment(); // Setzt Hintergrundbild und Overlay
         }
         catch (error) {
+            console.error(error);
             if (weatherDesc)
                 weatherDesc.innerText = "Nicht gef.";
             if (weatherTemp)
@@ -171,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     // INITIALISIERUNG
-    updateSnowAvailability();
-    updateEnvironment();
+    // Wir rufen fetchWeather auf, was nun auch updateEnvironment() und updateSnowAvailability() triggert
     fetchWeather();
 });
