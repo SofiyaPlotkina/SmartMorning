@@ -1,0 +1,11 @@
+/* --- CONFIG & VARIABLES --- */
+:root {
+    --primary-blue: #0b5685;
+    --dark-blue: #073d5e;
+    --deep-blue: #04263a;
+    --pixel-white: #f6f7f8;
+    --rain-color-near: #a8d8ff;
+    --rain-color-far: #90c0e8;
+    --font-pixel: 'Press Start 2P', cursive;
+    --font-mono: 'Courier New', Courier, monospace;
+}

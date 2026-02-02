@@ -1,4 +1,4 @@
-/* --- CONFIG & VARIABLES --- */
+--- CONFIG & VARIABLES ---
 :root {
     --primary-blue: #0b5685;
     --dark-blue: #073d5e;
@@ -558,3 +558,4 @@ body {
     line-height: 1.4;
     text-transform: uppercase;
 }
+

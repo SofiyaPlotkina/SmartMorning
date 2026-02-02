@@ -7,8 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
 
     <div id="rain-container" class="rain-overlay hidden">
@@ -25,12 +27,8 @@
 
     <header class="pixel-header">
         <h1 class="pixel-title">smart Morning</h1>
-        
         <button id="settings-btn" class="pixel-btn">SETUP</button>
     </header>
-
-    <main class="content-area">
-        </main>
 
     <div id="settings-modal" class="modal-overlay hidden">
         <div class="pixel-window">
@@ -54,52 +52,50 @@
 
                 <div class="control-group">
                     <label>WEATHER:</label>
-                    <label class="pixel-toggle">
-                        <input type="checkbox" id="rain-toggle">
-                        <span class="slider"></span>
-                        <span class="label-text">RAIN</span>
+                    <div class="weather-toggles">
                         <label class="pixel-toggle">
-                        <input type="checkbox" id="snow-toggle">
-                        <span class="slider"></span>
-                        <span class="label-text">SNOW</span>
-                    </label>
+                            <input type="checkbox" id="rain-toggle">
+                            <span class="slider"></span>
+                            <span class="label-text">RAIN</span>
+                        </label>
+                        <label class="pixel-toggle">
+                            <input type="checkbox" id="snow-toggle">
+                            <span class="slider"></span>
+                            <span class="label-text">SNOW</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="dashboard-grid">
+        <div class="pixel-container weather-widget">
+            <div class="widget-header">
+                <div class="pixel-close-btn">X</div>
+                <div class="widget-title">WEATHER</div>
+            </div>
 
-    <div class="pixel-container weather-widget">
-        
-        <div class="widget-header">
-            <div class="pixel-close-btn">X</div>
-            <div class="widget-title">WEATHER</div>
-        </div>
-
-        <div class="location-wrapper">
-            <div class="pixel-dropdown" id="city-dropdown">
-                <div class="dropdown-header">
-                    <input type="text" id="city-input" class="pixel-input-dropdown" placeholder="Stadt suchen..." value="Leipzig" autocomplete="off">
-                    <span class="pixel-arrow"></span>
+            <div class="location-wrapper">
+                <div class="pixel-dropdown" id="city-dropdown">
+                    <div class="dropdown-header">
+                        <input type="text" id="city-input" class="pixel-input-dropdown" placeholder="Stadt suchen..." value="Leipzig" autocomplete="off">
+                        <span class="pixel-arrow"></span>
+                    </div>
+                    <ul class="dropdown-list hidden" id="location-list">
+                        <li data-value="Leipzig">Leipzig</li>
+                    </ul>
                 </div>
-                <ul class="dropdown-list hidden" id="location-list">
-                    <li data-value="Leipzig">Leipzig</li>
-                </ul>
-            </div>
-        </div> 
-        
-        <div class="widget-content">
-            <img id="weather-icon" src="weather_icons/loading.png" alt="Wetter Icon" class="pixel-icon">
+            </div> 
             
-            <div class="weather-info">
-                <span id="weather-temp" class="pixel-temp">--°C</span>
-                <span id="weather-desc" class="pixel-desc">Lade Daten...</span>
+            <div class="widget-content">
+                <img id="weather-icon" src="weather_icons/loading.png" alt="Wetter Icon" class="pixel-icon">
+                <div class="weather-info">
+                    <span id="weather-temp" class="pixel-temp">--°C</span>
+                    <span id="weather-desc" class="pixel-desc">Lade Daten...</span>
+                </div>
             </div>
         </div>
-
-    </div>
-
     </div>
 
     <script src="app.js"></script>
