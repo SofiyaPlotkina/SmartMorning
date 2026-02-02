@@ -68,6 +68,40 @@
         </div>
     </div>
 
+    <div class="dashboard-grid">
+
+    <div class="pixel-container weather-widget">
+        
+        <div class="widget-header">
+            <div class="pixel-close-btn">X</div>
+            <div class="widget-title">WEATHER</div>
+        </div>
+
+        <div class="location-wrapper">
+            <div class="pixel-dropdown" id="city-dropdown">
+                <div class="dropdown-header">
+                    <input type="text" id="city-input" class="pixel-input-dropdown" placeholder="Stadt suchen..." value="Leipzig" autocomplete="off">
+                    <span class="pixel-arrow"></span>
+                </div>
+                <ul class="dropdown-list hidden" id="location-list">
+                    <li data-value="Leipzig">Leipzig</li>
+                </ul>
+            </div>
+        </div> 
+        
+        <div class="widget-content">
+            <img id="weather-icon" src="weather_icons/loading.png" alt="Wetter Icon" class="pixel-icon">
+            
+            <div class="weather-info">
+                <span id="weather-temp" class="pixel-temp">--°C</span>
+                <span id="weather-desc" class="pixel-desc">Lade Daten...</span>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>

@@ -201,6 +201,95 @@ body {
     box-shadow: 2px 2px 0px var(--deep-blue);
 }
 
+/* --- CUSTOM PIXEL DROPDOWN --- */
+.location-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.pixel-dropdown {
+    position: relative;
+    width: 220px;
+    background: var(--pixel-white);
+    border: 4px solid var(--primary-blue);
+    font-family: var(--font-pixel);
+    z-index: 100;
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.pixel-input-dropdown {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.7rem;
+    width: 100%;
+    outline: none;
+    padding: 5px 30px 5px 5px;
+    text-transform: uppercase;
+    color: var(--deep-blue);
+}
+
+.pixel-arrow {
+    position: absolute;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--primary-blue);
+    pointer-events: none;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: -4px;
+    width: calc(100% + 8px);
+    background: var(--pixel-white);
+    border: 4px solid var(--primary-blue);
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-list li {
+    padding: 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-bottom: 2px solid var(--rain-color-near);
+    color: var(--dark-blue);
+    text-transform: uppercase;
+}
+
+.dropdown-list li:hover {
+    background: var(--primary-blue);
+    color: white;
+}
+
+/* Custom Pixel Scrollbar */
+.dropdown-list::-webkit-scrollbar {
+    width: 12px;
+}
+.dropdown-list::-webkit-scrollbar-track {
+    background: var(--pixel-white);
+}
+.dropdown-list::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border: 2px solid var(--pixel-white);
+}
+
 /* --- MODAL & WINDOW --- */
 
 .modal-overlay {
@@ -284,9 +373,6 @@ body {
 /* --- SNOW ANIMATION --- */
 
 :root {
-    /* TRICK: Die viewBox ist jetzt RIESIG (256x256). 
-       Die kleine 7px Flocke schwimmt in einem riesigen leeren Raum.
-       Das reduziert die Anzahl der Flocken drastisch. */
     --snowflake-pixel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Cg transform='translate(124,124)'%3E%3Cpath fill='%23ffffff' d='M0 0h1v1H0zM3 0h1v1H3zM6 0h1v1H6zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM2 2h3v1H2zM0 3h7v1H0zM2 4h3v1H2zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5zM0 6h1v1H0zM3 6h1v1H3zM6 6h1v1H6z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -309,7 +395,6 @@ body {
     image-rendering: pixelated;
 }
 
-/* --- BASIS SETUP --- */
 .snow-layer::before, .snow-layer::after {
     content: '';
     position: absolute;
@@ -319,48 +404,41 @@ body {
     height: 300vh;
     background-image: var(--snowflake-pixel);
     background-repeat: repeat;
-    /* Ease-in-out sorgt für weichere, weniger roboterhafte Bewegungen */
     animation-timing-function: ease-in-out; 
     animation-iteration-count: infinite;
 }
 
-/* --- LAYER 1: VORDERGRUND (Größer, schneller) --- */
 .env-snow-near {
     z-index: 2;
     opacity: 0.9;
 }
 
-/* Ebene A: Schwingt leicht */
 .env-snow-near::before {
-    animation-name: snow-chaos-1; /* Zick-Zack Muster 1 */
+    animation-name: snow-chaos-1;
     animation-duration: 12s;
-    background-size: 300px 300px; /* Großer Abstand */
+    background-size: 300px 300px;
     background-position: 0px 0px;
 }
 
-/* Ebene B: Schwingt stark in Gegenrichtung */
 .env-snow-near::after {
-    animation-name: snow-chaos-2; /* Zick-Zack Muster 2 */
+    animation-name: snow-chaos-2;
     animation-duration: 16s;
-    background-size: 250px 250px; /* Noch größerer Abstand */
+    background-size: 250px 250px;
     background-position: 50% 50px; 
 }
 
-/* --- LAYER 2: HINTERGRUND (Kleiner, langsamer) --- */
 .env-snow-far {
     z-index: 1;
     opacity: 0.6;
 }
 
-/* Ebene C */
 .env-snow-far::before {
-    animation-name: snow-chaos-3; /* Nur leichtes Driften */
+    animation-name: snow-chaos-3;
     animation-duration: 25s;
     background-size: 200px 200px; 
     background-position: 20px 20px;
 }
 
-/* Ebene D */
 .env-snow-far::after {
     animation-name: snow-chaos-1;
     animation-duration: 30s;
@@ -368,45 +446,115 @@ body {
     background-position: -40px -80px;
 }
 
-/* --- GLAS EFFEKT (Optional) --- */
-.glass-snow {
-    z-index: 3;
-    opacity: 0.3;
-    filter: blur(1.5px);
-}
-.glass-snow::after {
-    animation-name: glass-drift;
-    animation-duration: 45s;
-    background-size: 180px 180px;
-}
-
-/* --- RANDOM KEYFRAMES (Das Chaos) --- */
-
-/* Muster 1: Sanftes Pendeln */
 @keyframes snow-chaos-1 {
     0%   { transform: translate(0, 0); }
-    25%  { transform: translate(30px, 25vh); } /* Nach Rechts */
-    50%  { transform: translate(-20px, 50vh); } /* Nach Links */
-    75%  { transform: translate(10px, 75vh); }  /* Zurück zur Mitte */
+    25%  { transform: translate(30px, 25vh); }
+    50%  { transform: translate(-20px, 50vh); }
+    75%  { transform: translate(10px, 75vh); }
     100% { transform: translate(0, 100vh); }
 }
 
-/* Muster 2: Weites Ausschwenken */
 @keyframes snow-chaos-2 {
     0%   { transform: translate(0, -50vh); }
-    33%  { transform: translate(-40px, 10vh); } /* Stark nach Links */
-    66%  { transform: translate(40px, 80vh); }  /* Stark nach Rechts */
+    33%  { transform: translate(-40px, 10vh); }
+    66%  { transform: translate(40px, 80vh); }
     100% { transform: translate(0, 150vh); }
 }
 
-/* Muster 3: Langsames Driften */
 @keyframes snow-chaos-3 {
     0%   { transform: translate(0, -20vh); }
     50%  { transform: translate(15px, 40vh); }
     100% { transform: translate(-10px, 100vh); }
 }
 
-@keyframes glass-drift {
-    from { background-position: 0 0; }
-    to { background-position: 60px 300px; }
+/* --- DASHBOARD GRID SYSTEM --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
+    gap: 2rem;
+    padding: 1rem; 
+    max-width: 1200px;
+    margin: 0; 
+    position: relative;
+    z-index: 10;
+}
+
+/* --- GENERIC PIXEL CONTAINER --- */
+.pixel-container {
+    background-color: var(--pixel-white);
+    border: 4px solid var(--primary-blue);
+    box-shadow: 8px 8px 0px var(--deep-blue);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.pixel-container:hover {
+    transform: translateY(-2px);
+}
+
+/* --- WIDGET HEADER --- */
+.widget-header {
+    background-color: var(--primary-blue);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--dark-blue);
+    flex-direction: row-reverse; 
+}
+
+.widget-title {
+    font-family: var(--font-pixel);
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.widget-header .pixel-close-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+    box-shadow: 2px 2px 0px var(--deep-blue);
+}
+
+/* --- WIDGET CONTENT --- */
+.widget-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 15px;
+    min-height: 180px;
+}
+
+.pixel-icon {
+    width: 200px;
+    height: 200px;
+    image-rendering: pixelated; 
+    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1));
+}
+
+.pixel-temp {
+    display: block;
+    font-family: var(--font-pixel); 
+    font-size: 1.8rem;
+    font-weight: normal; 
+    color: var(--deep-blue);
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.pixel-desc {
+    display: block;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    font-weight: normal;
+    color: var(--dark-blue);
+    line-height: 1.4;
+    text-transform: uppercase;
 }
