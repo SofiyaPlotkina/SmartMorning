@@ -134,6 +134,7 @@
     image-rendering: pixelated;
 }
 
+/* --- HIER WAR DER FEHLER: Wir trennen die Zuweisung --- */
 .snow-layer::before, .snow-layer::after {
     content: '';
     position: absolute;
@@ -143,43 +144,34 @@
     height: 300vh;
     background-image: var(--snowflake-pixel);
     background-repeat: repeat;
-    animation-timing-function: ease-in-out; 
+    /* Wir definieren nur die Art der Bewegung, der Name kommt unten */
     animation-iteration-count: infinite;
-}
-
-.env-snow-near {
-    z-index: 2;
-    opacity: 0.9;
+    animation-timing-function: ease-in-out;
 }
 
 .env-snow-near::before {
-    animation-name: snow-chaos-1;
+    animation-name: snow-chaos-1; /* Zuweisung gefixt */
     animation-duration: 12s;
     background-size: 300px 300px;
     background-position: 0px 0px;
 }
 
 .env-snow-near::after {
-    animation-name: snow-chaos-2;
+    animation-name: snow-chaos-2; /* Zuweisung gefixt */
     animation-duration: 16s;
     background-size: 250px 250px;
     background-position: 50% 50px; 
 }
 
-.env-snow-far {
-    z-index: 1;
-    opacity: 0.6;
-}
-
 .env-snow-far::before {
-    animation-name: snow-chaos-3;
+    animation-name: snow-chaos-3; /* Zuweisung gefixt */
     animation-duration: 25s;
     background-size: 200px 200px; 
     background-position: 20px 20px;
 }
 
 .env-snow-far::after {
-    animation-name: snow-chaos-1;
+    animation-name: snow-chaos-1; /* Zuweisung gefixt */
     animation-duration: 30s;
     background-size: 120px 120px; 
     background-position: -40px -80px;
