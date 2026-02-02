@@ -33,13 +33,47 @@
     flex-direction: column;
     gap: 1.5rem;
 }
+.pixel-select-wrapper {
+    position: relative;
+    width: 100%;
+}
 
 .pixel-input {
-    font-family: var(--font-pixel);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     width: 100%;
-    padding: 10px;
-    border: 2px solid var(--primary-blue);
+    background-color: var(--pixel-white);
+    border: 4px solid var(--primary-blue); 
+    border-radius: 0;
+    padding: 10px 15px;
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    color: var(--deep-blue);
+    cursor: pointer;
+}
+
+.pixel-input:active {
+    transform: translateY(2px);
+}
+
+.pixel-input:focus {
     outline: none;
+    background-color: #f0f0ff; 
+}
+
+.pixel-select-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none; 
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--primary-blue);
 }
 
 /* --- TOGGLE SWITCH --- */
