@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         rainContainer.classList.toggle('hidden', !isRaining);
         snowContainer.classList.toggle('hidden', !isSnowing);
     };
-    // HILFSFUNKTION: Jahreszeit anhand des Datums ermitteln
     const getSeasonByDate = () => {
         const month = new Date().getMonth(); // 0 = Januar, 11 = Dezember
         // Winter: Dez (11), Jan (0), Feb (1)
@@ -177,21 +176,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 weatherIcon.src = getLocalIconPath(data.current.condition.code, data.current.is_day === 1);
             }
             // --- DYNAMISCHE HINTERGRUND & WETTER LOGIK ---
-            // 1. Wetter-Code analysieren (Regen/Schnee Codes von WeatherAPI)
             const code = data.current.condition.code;
-            // Erweiterte Liste für Regen (inkl. Schauer, Nieselregen etc.)
             const rainCodes = [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276];
-            // Erweiterte Liste für Schnee (inkl. Schneeschauer, Blizzard etc.)
             const snowCodes = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1255, 1258, 1261, 1264, 1279, 1282];
             const isRaining = rainCodes.includes(code);
             const isSnowing = snowCodes.includes(code);
-            // 2. Jahreszeit berechnen
             let currentSeason = getSeasonByDate();
-            // SONDERFALL: Wenn es schneit, erzwingen wir "Winter", da es nur für Winter ein Schnee-Hintergrundbild gibt.
             if (isSnowing) {
                 currentSeason = 'winter';
             }
-            // 3. UI-Elemente aktualisieren (behält manuelle Kontrolle bei, setzt aber auf aktuelle Werte)
             if (seasonSelect)
                 seasonSelect.value = currentSeason;
             if (rainToggle)
@@ -199,8 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (snowToggle)
                 snowToggle.checked = isSnowing;
             // 4. Visuelles Update triggern
-            updateSnowAvailability(); // Aktiviert/Deaktiviert Snow-Toggle basierend auf Jahreszeit
-            updateEnvironment(); // Setzt Hintergrundbild und Overlay
+            updateSnowAvailability();
+            updateEnvironment();
         }
         catch (error) {
             console.error(error);
@@ -212,7 +205,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 weatherIcon.src = 'weather_icons/unknown.png';
         }
     }
-    // INITIALISIERUNG
-    // Wir rufen fetchWeather auf, was nun auch updateEnvironment() und updateSnowAvailability() triggert
     fetchWeather();
 });
