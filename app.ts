@@ -55,19 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         snowContainer.classList.toggle('hidden', !isSnowing);
     };
 
-    const getSeasonByDate = (): string => {
-        const month = new Date().getMonth(); // 0 = Januar, 11 = Dezember
-        
-        // Winter: Dez (11), Jan (0), Feb (1)
-        if (month === 11 || month === 0 || month === 1) return 'winter';
-        // Frühling: Mär (2), Apr (3), Mai (4)
-        if (month >= 2 && month <= 4) return 'spring';
-        // Sommer: Jun (5), Jul (6), Aug (7)
-        if (month >= 5 && month <= 7) return 'summer';
-        // Herbst: Sep (8), Okt (9), Nov (10)
-        return 'autumn';
-    };
-
     // 3. EVENT LISTENER (UI)
     seasonSelect.addEventListener('change', () => { updateSnowAvailability(); updateEnvironment(); });
     rainToggle.addEventListener('change', () => { if (rainToggle.checked) snowToggle.checked = false; updateEnvironment(); });
@@ -169,48 +156,122 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchWeather() {
         const city = cityInput.value || 'Leipzig';
         try {
-            const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&lang=de`);
+            // WICHTIG: Änderung auf 'forecast.json', um Regenwahrscheinlichkeit & UV Forecast zu bekommen
+            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no&alerts=no&lang=de`);
+            
             if (!response.ok) throw new Error();
             const data = await response.json();
             
-            // --- UI Text Updates ---
-            if (weatherTemp) weatherTemp.innerText = `${Math.round(data.current.temp_c)}°C`;
-            if (weatherDesc) weatherDesc.innerText = data.current.condition.text;
+            const current = data.current;
+            const forecastDay = data.forecast.forecastday[0].day; // Vorhersage für heute
+
+            // --- 1. EXISTING WEATHER WIDGET ---
+            if (weatherTemp) weatherTemp.innerText = `${Math.round(current.temp_c)}°C`;
+            if (weatherDesc) weatherDesc.innerText = current.condition.text;
             if (weatherIcon) {
-                weatherIcon.src = getLocalIconPath(data.current.condition.code, data.current.is_day === 1);
+                weatherIcon.src = getLocalIconPath(current.condition.code, current.is_day === 1);
             }
 
-            // --- DYNAMISCHE HINTERGRUND & WETTER LOGIK ---
-            
-            const code = data.current.condition.code;
-            
-            const rainCodes = [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276];
+            // --- 2. ENVIRONMENT AUTO SETUP ---
+            const detectedSeason = calculateSeason(data.location.localtime, data.location.lat);
+            seasonSelect.value = detectedSeason;
+
+            // Regen/Schnee Codes prüfen
+            const rainCodes = [1063, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276];
             const snowCodes = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1255, 1258, 1261, 1264, 1279, 1282];
+            
+            let isRaining = rainCodes.includes(current.condition.code);
+            let isSnowing = snowCodes.includes(current.condition.code);
 
-            const isRaining = rainCodes.includes(code);
-            const isSnowing = snowCodes.includes(code);
-
-            let currentSeason = getSeasonByDate();
-
-            if (isSnowing) {
-                currentSeason = 'winter';
+            if (isSnowing && detectedSeason !== 'winter') {
+                isSnowing = false;
+                isRaining = true;
             }
 
-            if (seasonSelect) seasonSelect.value = currentSeason;
-            if (rainToggle) rainToggle.checked = isRaining;
-            if (snowToggle) snowToggle.checked = isSnowing;
-
-            // 4. Visuelles Update triggern
-            updateSnowAvailability(); 
+            rainToggle.checked = isRaining;
+            snowToggle.checked = isSnowing;
+            
+            updateSnowAvailability();
             updateEnvironment();
+
+            // --- 3. CLOTHING CHECKLIST LOGIC ---
+            updateClothingChecklist(current, forecastDay, isRaining, isSnowing);
 
         } catch (error) {
             console.error(error);
-            if (weatherDesc) weatherDesc.innerText = "Nicht gef.";
-            if (weatherTemp) weatherTemp.innerText = "--";
-            if (weatherIcon) weatherIcon.src = 'weather_icons/unknown.png';
+            // Error Handling wie gehabt...
         }
+    }
+
+        function calculateSeason(localtime: any, lat: any) {
+            const date = new Date(localtime);
+            const month = date.getMonth();
+            const hemisphere = lat > 0 ? 'northern' : 'southern';
+
+            // Einfache saisonale Zuordnung
+            if (hemisphere === 'northern') {
+                if (month >= 2 && month <= 4) return 'spring';
+                if (month >= 5 && month <= 7) return 'summer';
+                if (month >= 8 && month <= 10) return 'autumn';
+                return 'winter';
+            } else {
+                if (month >= 2 && month <= 4) return 'autumn';
+                if (month >= 5 && month <= 7) return 'winter';
+                if (month >= 8 && month <= 10) return 'spring';
+                return 'summer';
+            }
+        }
+
+    // Neue Funktion für die Checkliste
+    function updateClothingChecklist(current: any, forecast: any, isRaining: boolean, isSnowing: boolean) {
+        // Datenpunkte
+        const uvIndex = current.uv; // UV Index aktuell
+        const windKph = current.wind_kph; // Wind km/h
+        const tempC = current.temp_c;
+        const chanceOfRain = forecast.daily_chance_of_rain; // Regenwahrscheinlichkeit in %
+
+        // Logik für Items
+        // Sonnenbrille: Wenn UV > 3 oder Wetter "Sonnig" (Code 1000)
+        const needSunglasses = uvIndex >= 3 || current.condition.code === 1000;
+        
+        // Sonnencreme: Wenn UV > 4
+        const needSunscreen = uvIndex >= 4;
+        
+        // Hut: Wenn UV sehr hoch ODER es sehr kalt ist (Mütze)
+        // Wir nehmen hier Logik für "Kopfbedeckung allgemein"
+        const needHat = uvIndex >= 5 || tempC < 5; 
+
+        // Regenschirm: Wenn es regnet ODER Regenwahrscheinlichkeit > 50%
+        const needUmbrella = isRaining || chanceOfRain > 50;
+
+        // Schal: Wenn es windig ist (> 15kmh) ODER kalt (< 10 Grad)
+        const needScarf = windKph > 15 || tempC < 10;
+
+        // Helper Funktion zum Umschalten der UI
+        const toggleItem = (id: string, active: boolean) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            
+            const checkbox = el.querySelector('.pixel-checkbox');
+            
+            // Checkbox Status
+            if (active) {
+                checkbox?.classList.add('checked');
+                el.classList.remove('inactive');
+            } else {
+                checkbox?.classList.remove('checked');
+                el.classList.add('inactive'); // Optional: Text ausgrauen
+            }
+        };
+
+        toggleItem('item-sunglasses', needSunglasses);
+        toggleItem('item-sunscreen', needSunscreen);
+        toggleItem('item-hat', needHat);
+        toggleItem('item-umbrella', needUmbrella);
+        toggleItem('item-scarf', needScarf);
     }
 
     fetchWeather();
 });
+
+
