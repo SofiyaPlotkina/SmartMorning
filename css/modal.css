@@ -111,3 +111,81 @@
     left: 34px;
     background-color: #fff;
 }
+
+/* --- NUMMER INPUT CLEANUP --- */
+
+/* 1. Standard Browser-Pfeile entfernen */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* 2. Container für Input + Pfeile */
+.pixel-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Das Input Feld bekommt rechts Platz, damit Text nicht unter die Pfeile rutscht */
+.pixel-input-group input {
+    padding-right: 40px; 
+}
+
+/* 3. Container für die neuen Pfeile */
+.pixel-spinner-controls {
+    position: absolute;
+    right: 4px; /* Abstand vom rechten Rand */
+    top: 4px;
+    bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 30px;
+}
+
+/* 4. Der einzelne Pfeil-Button */
+.pixel-spin-btn {
+    flex: 1; /* Beide Buttons teilen sich die Höhe */
+    background-color: var(--primary-blue);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: background 0.1s;
+}
+
+.pixel-spin-btn:active {
+    background-color: var(--deep-blue);
+}
+
+/* Wenn disabled (Manual Mode aus), Buttons ausgrauen */
+.pixel-spin-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 5. Die Pixel-Pfeile mit CSS (Dreiecke) zeichnen */
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff; /* Pfeil nach oben */
+}
+
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff; /* Pfeil nach unten */
+}
