@@ -1,8 +1,5 @@
 /* --- RETRO PIXEL VINYL PLAYER (COLOR MATCH) --- */
 
-/* ========================================= */
-/* 🎨 FARBPALETTE - HIER ANPASSEN!           */
-/* ========================================= */
 :root {
     /* Gehäuse-Farbe (Aussen) - z.B. das Holz oder Plastik */
     --case-main: var(--pixel-white);  /* Retro Orange/Braun */
@@ -217,12 +214,12 @@
     border-right-color: #fff;
     box-shadow: inset 1px 1px 0 #000;
     margin-bottom: 10px;
-    font-family: 'Courier New', monospace;
+    font-family: 'Press Start 2P', monospace;;
     text-align: center;
 }
 
 .pixel-scroll-text {
-    font-size: 11px;
+    font-size: 8px;
     font-weight: bold;
     color: #61b6ea; /* Blauer Display-Text */
     text-shadow: 0 0 2px #3292ce;
@@ -232,7 +229,7 @@
 }
 
 .pixel-artist-text {
-    font-size: 9px;
+    font-size: 7px;
     color: #3292ce;
     margin-top: 2px;
 }

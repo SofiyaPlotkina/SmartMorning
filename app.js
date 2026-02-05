@@ -484,5 +484,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // INITIALIZATION
     // =================================================
     fetchWeather();
-    initSpotifyAuth(); // Spotify starten
+    initSpotifyAuth();
 });
