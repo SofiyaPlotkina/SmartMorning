@@ -5,16 +5,16 @@
 /* ========================================= */
 :root {
     /* Gehäuse-Farbe (Aussen) - z.B. das Holz oder Plastik */
-    --case-main: #cfd9da;  /* Retro Orange/Braun */
-    --case-dark: #4d656f;  /* Schatten-Seite */
-    --case-light: #ffffff; /* Licht-Seite */
+    --case-main: var(--pixel-white);  /* Retro Orange/Braun */
+    --case-dark: var(--pixel-white);  /* Schatten-Seite */
+    --case-light: var(--pixel-white); /* Licht-Seite */
 
     /* Innenbereich (wo die Platte liegt) */
-    --inner-bg: #8ec2d2;   /* Helles Grau/Weiß */
+    --inner-bg: var(--primary-blue);   /* Helles Grau/Weiß */
     
     /* Tonarm */
     --arm-metal: #747373;  /* Silber */
-    --arm-head: #562118;   /* Roter Kopf */
+    --arm-head: #747373;   /* Roter Kopf */
 
     /* Platte */
     --vinyl-color: #151515;
@@ -202,7 +202,7 @@
     height: 24px;
     background-color: var(--arm-head);
     border: 1px solid #000;
-    border-bottom: 3px solid #800;
+    border-bottom: 3px solid #5c5c5c;
     box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
