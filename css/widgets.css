@@ -58,5 +58,5 @@
 
 /* --- DEFAULT SIZES --- */
 .weather-widget { width: 280px; height: 380px; min-width: 280px; min-height: 380px; }
-.clothing-widget { width: 320px; height: 550px; min-width: 250px; min-height: 400px; }
+.clothing-widget { width: 250px; height: 50px; min-width: 250px; min-height: 500px; }
 .vinyl-widget { width: 290px; height: 302px; min-width: 290px; min-height: 302px; }

@@ -24,7 +24,7 @@
 
 .pixel-item-icon {
     width: 15cqw; 
-    max-width: 50px;
+    max-width: 100px;
     height: auto;
     image-rendering: pixelated; 
     filter: drop-shadow(2px 2px 0px var(--shadow-light)); 
@@ -47,4 +47,6 @@
     color: var(--pixel-red);
     font-size: 1.2rem;
     font-family: var(--font-pixel);
+    padding-left: 2.5px;
+    padding-top: 2.5px;
 }
