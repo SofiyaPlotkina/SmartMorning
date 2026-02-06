@@ -1,0 +1,33 @@
+.widget-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.pixel-icon {
+    width: 60cqw !important;
+    height: auto !important;
+    image-rendering: pixelated; 
+    filter: drop-shadow(4px 4px 0px var(--shadow-light));
+}
+
+.pixel-temp {
+    display: block;
+    font-family: var(--font-pixel); 
+    font-size: clamp(1.2rem, 15cqw, 4rem) !important;
+    color: var(--deep-blue);
+    text-shadow: 2px 2px 0px var(--shadow-light);
+}
+
+.pixel-desc {
+    display: block;
+    font-family: var(--font-pixel);
+    font-size: clamp(0.5rem, 5cqw, 1.2rem) !important;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+}

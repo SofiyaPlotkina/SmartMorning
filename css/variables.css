@@ -1,11 +1,45 @@
 /* --- CONFIG & VARIABLES --- */
 :root {
+    /* Brand Colors */
     --primary-blue: #0b5685;
     --dark-blue: #073d5e;
     --deep-blue: #04263a;
+    --light-blue: #569bd0;
     --pixel-white: #f6f7f8;
-    --rain-color-near: #a8d8ff;
-    --rain-color-far: #90c0e8;
+    --pixel-black: #000000;
+    --pixel-red: #d04e37;
+    
+    /* Vinyl / Music Colors */
+
+    --case-main: var(--pixel-white);
+    --case-dark: var(--pixel-white);
+    --case-light: var(--pixel-white);
+
+    /* Innenbereich (wo die Platte liegt) */
+    --inner-bg: var(--primary-blue);
+    
+    /* Tonarm */
+    --arm-metal: #747373;
+    --arm-head: #747373;
+
+    /* Platte */
+    --vinyl-color: #151515;
+    
+    /* Fonts */
     --font-pixel: 'Press Start 2P', cursive;
     --font-mono: 'Courier New', Courier, monospace;
-}
+
+    /* Shadows */
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.3);
+
+    /*vinyl grooves*/
+    --groove-1: #2a2a2a;
+    --groove-2: #111;
+
+    /* vinyl shine */
+    --shine-light1: rgba(255, 255, 255, 0.1);
+    --shine-light2: rgba(255, 255, 255, 0.3);
+
+
+}   

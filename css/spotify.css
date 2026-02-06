@@ -1,21 +1,5 @@
-/* --- RETRO PIXEL VINYL PLAYER (COLOR MATCH) --- */
+/* --- Spotify VINYL PLAYER --- */
 
-:root {
-    /* Gehäuse-Farbe (Aussen) - z.B. das Holz oder Plastik */
-    --case-main: var(--pixel-white);  /* Retro Orange/Braun */
-    --case-dark: var(--pixel-white);  /* Schatten-Seite */
-    --case-light: var(--pixel-white); /* Licht-Seite */
-
-    /* Innenbereich (wo die Platte liegt) */
-    --inner-bg: var(--primary-blue);   /* Helles Grau/Weiß */
-    
-    /* Tonarm */
-    --arm-metal: #747373;  /* Silber */
-    --arm-head: #747373;   /* Roter Kopf */
-
-    /* Platte */
-    --vinyl-color: #151515;
-}
 
 .vinyl-widget * {
     image-rendering: pixelated;
@@ -38,7 +22,7 @@
     border-right: 2px solid var(--case-dark);
     border-bottom: 2px solid var(--case-dark);
     
-    box-shadow: inset 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.3);
+    box-shadow: inset 1px 1px 0px var(--pixel-black), 2px 2px 0px rgba(0,0,0,0.3);
 }
 
 /* Der Bereich unter der Platte */
@@ -52,8 +36,8 @@
     
     /* Eingedrückter Effekt (Inset) */
     border: 2px solid;
-    border-color: #808080 #ffffff #ffffff #808080; 
-    box-shadow: inset 1px 1px 0 #000;
+    border-color: var(--primary-blue) var(--light-blue) var(--deep-blue) var(--deep-blue); 
+    box-shadow: inset 1px 1px 0 var(--pixel-black);
     
     display: flex;
     justify-content: center;
@@ -81,7 +65,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 0 2px #000, 2px 2px 0 2px rgba(0,0,0,0.2);
+    box-shadow: 0 0 0 2px var(--pixel-black), 2px 2px 0 2px rgba(0,0,0,0.2);
     overflow: hidden;
 }
 
@@ -91,14 +75,14 @@
     height: 92%;
     border-radius: 50%;
     background: repeating-radial-gradient(
-        #2a2a2a,
-        #2a2a2a 3px,
-        #111 3px,
-        #111 6px
+        var(--groove-1) 0,
+        var(--groove-1) 3px,
+        var(--groove-2) 3px,
+        var(--groove-2) 6px
     );
     pointer-events: none;
     z-index: 1;
-}
+}   
 
 /* Glanz-Effekt */
 .vinyl-shine {
@@ -108,9 +92,9 @@
     background: linear-gradient(
         135deg, 
         transparent 40%, 
-        rgba(255, 255, 255, 0.1) 45%, 
-        rgba(255, 255, 255, 0.3) 50%, 
-        rgba(255, 255, 255, 0.1) 55%, 
+        var(--shine-light1) 45%, 
+        var(--shine-light2) 50%, 
+        var(--shine-light1) 55%, 
         transparent 60%
     );
     pointer-events: none;
@@ -123,10 +107,10 @@
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid var(--inner-bg);
-    background: #fff;
+    background: var(--pixel-white);
     z-index: 4;
     pointer-events: none;
-    box-shadow: inset 0 0 0 1px #000;
+    box-shadow: inset 0 0 0 1px var(--pixel-black);
 }
 
 .album-label img {
@@ -152,9 +136,9 @@
     width: 32px;
     height: 32px;
     background-color: var(--arm-metal);
-    border: 2px solid #000;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-    border-radius: 4px; /* Leicht abgerundet */
+    border: 2px solid var(--pixel-black);
+    box-shadow: 2px 2px 0 var(--shadow-medium);
+    border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -166,8 +150,8 @@
 .screw-top, .screw-bot {
     width: 6px;
     height: 6px;
-    background-color: #888;
-    border: 1px solid #444;
+    background-color: var(--arm-head);
+    border: 1px solid var(--groove-1);
     border-radius: 50%;
 }
 
@@ -184,8 +168,8 @@
     width: 8px;
     height: 95px;
     background-color: var(--arm-metal);
-    border: 1px solid #000;
-    border-right: 2px solid #666; /* Schattenseite */
+    border: 1px solid var(--pixel-black);
+    border-right: 2px solid var(--arm-head);
     position: absolute;
     top: 0;
     left: -4px;
@@ -198,21 +182,21 @@
     width: 16px;
     height: 24px;
     background-color: var(--arm-head);
-    border: 1px solid #000;
-    border-bottom: 3px solid #5c5c5c;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    border: 1px solid var(--groove-1);
+    border-bottom: 3px solid var(--groove-2);
+    box-shadow: 2px 2px 0 var(--shadow-medium);
 }
 
 /* --- TEXT DISPLAY & KNÖPFE --- */
 
 .track-info-panel {
     width: 100%;
-    background-color: #000; /* Retro Display Schwarz */
+    background-color: var(--pixel-black);
     padding: 8px;
-    border: 2px solid #808080;
-    border-bottom-color: #fff;
-    border-right-color: #fff;
-    box-shadow: inset 1px 1px 0 #000;
+    border: 2px solid var(--shadow-medium);
+    border-bottom-color: var(--arm-head);
+    border-right-color: var(--groove-1);
+    box-shadow: inset 1px 1px 0 var(--pixel-black);
     margin-bottom: 10px;
     font-family: 'Press Start 2P', monospace;;
     text-align: center;
@@ -221,8 +205,8 @@
 .pixel-scroll-text {
     font-size: 8px;
     font-weight: bold;
-    color: #61b6ea; /* Blauer Display-Text */
-    text-shadow: 0 0 2px #3292ce;
+    color: var(--light-blue); /* Blauer Display-Text */
+    text-shadow: 0 0 2px var(--shine-light1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -230,7 +214,7 @@
 
 .pixel-artist-text {
     font-size: 7px;
-    color: #3292ce;
+    color: var(--light-blue);
     margin-top: 2px;
 }
 
@@ -248,7 +232,7 @@
     background-color: var(--case-main); /* Gleiche Farbe wie Case */
     border: 2px solid;
     border-color: var(--case-light) var(--case-dark) var(--case-dark) var(--case-light);
-    box-shadow: 1px 1px 0 #000;
+    box-shadow: 1px 1px 0 var(--pixel-black);
     position: relative;
     cursor: pointer;
 }
@@ -260,7 +244,7 @@
     top: 6px; left: 8px;
     border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
-    border-left: 6px solid #000;
+    border-left: 6px solid var(--pixel-black);
 }
 
 .right-btn::after {
@@ -268,8 +252,8 @@
     position: absolute;
     top: 6px; left: 7px;
     width: 6px; height: 8px;
-    border-left: 2px solid #000;
-    border-right: 2px solid #000;
+    border-left: 2px solid var(--arm-metal);
+    border-right: 2px solid var(--arm-metal);
 }
 
 /* Animationen */
@@ -277,3 +261,61 @@
 
 .is-playing .vinyl-record { animation: spin 4s linear infinite; }
 .is-playing .tone-arm { transform: rotate(18deg); }
+
+/* 3. Musik-Widget (Vinyl) */
+.vinyl-widget {
+    width: 290px; 
+    height: 302px; 
+    min-width: 290px;
+    min-height: 302px;
+    resize: both;
+    overflow: hidden;
+    container-type: size;
+
+}
+
+.vinyl-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    flex-grow: 1; 
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    gap: 15px;
+}
+
+vinyl-wrapper {
+    position: relative;
+    width: 70cqw; 
+    height: 70cqw; 
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vinyl-record {
+    width: 100% !important;
+    height: 100% !important;
+    image-rendering: pixelated;
+}
+
+.album-label {
+    width: 30%; 
+    height: 30%;
+    position: absolute;
+    z-index: 2;
+}
+
+
+
+.track-info-panel {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

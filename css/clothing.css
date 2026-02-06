@@ -1,0 +1,50 @@
+.list-content {
+    align-items: stretch !important;
+    padding: 20px !important;
+}
+
+.clothing-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.clothing-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-family: var(--font-pixel);
+    font-size: clamp(0.5rem, 4cqw, 0.9rem); 
+    color: var(--deep-blue);
+    text-transform: uppercase;
+}
+
+.pixel-item-icon {
+    width: 15cqw; 
+    max-width: 50px;
+    height: auto;
+    image-rendering: pixelated; 
+    filter: drop-shadow(2px 2px 0px var(--shadow-light)); 
+}
+
+.pixel-checkbox {
+    width: 28px;
+    height: 28px;
+    border: 4px solid var(--deep-blue);
+    background-color: var(--pixel-white);
+    box-shadow: 2px 2px 0px var(--shadow-light);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pixel-checkbox.checked::after {
+    content: 'X';
+    color: var(--pixel-red);
+    font-size: 1.2rem;
+    font-family: var(--font-pixel);
+}
