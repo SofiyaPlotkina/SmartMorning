@@ -1,6 +1,11 @@
-@import "variables.css";
-@import "base.css";
-@import "animations.css";
-@import "header.css";
-@import "widgets.css";
-@import "modal.css";
+/* Globale Imports der modularisierten CSS-Dateien */
+@import 'variables.css';
+@import 'base.css';
+@import 'header.css';
+@import 'background.css';
+@import 'widgets.css';
+@import 'weather.css';
+@import 'clothing.css';
+@import 'music.css';
+@import 'modal.css';
+@import 'animations.css';

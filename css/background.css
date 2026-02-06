@@ -1,0 +1,15 @@
+body {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+}
+
+/* Rain & Snow Overlays */
+.rain-overlay, .snow-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.hidden { display: none !important; }

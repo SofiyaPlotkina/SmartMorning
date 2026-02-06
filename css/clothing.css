@@ -1,0 +1,67 @@
+/* --- CLOTHING WIDGET STYLES --- */
+
+.list-content {
+    align-items: stretch !important;
+    padding: 20px !important;
+}
+
+.clothing-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.clothing-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--deep-blue);
+    text-transform: uppercase;
+}
+
+.item-name {
+    flex-grow: 1;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.pixel-item-icon {
+    width: 40px;
+    height: 40px;
+    image-rendering: pixelated; 
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); 
+}
+
+/* --- CUSTOM PIXEL CHECKBOX (Read-Only) --- */
+.pixel-checkbox {
+    width: 28px;
+    height: 28px;
+    border: 4px solid var(--deep-blue);
+    background-color: #fff;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Das rote X wenn aktiv */
+.pixel-checkbox.checked::after {
+    content: 'X';
+    color: #d04e37;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: var(--font-pixel);
+    line-height: 1;
+    padding-top: 3px; 
+    padding-left: 2.5px;
+}
+
+.clothing-item.inactive {
+    opacity: 0.4;
+}

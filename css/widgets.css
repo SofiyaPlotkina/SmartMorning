@@ -1,4 +1,3 @@
-/* --- DASHBOARD GRID SYSTEM --- */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
@@ -10,7 +9,6 @@
     z-index: 10;
 }
 
-/* --- GENERIC PIXEL CONTAINER --- */
 .pixel-container {
     background-color: var(--pixel-white);
     border: 4px solid var(--primary-blue);
@@ -25,7 +23,6 @@
     transform: translateY(-2px);
 }
 
-/* --- WIDGET HEADER --- */
 .widget-header {
     background-color: var(--primary-blue);
     padding: 10px 15px;
@@ -44,7 +41,6 @@
     text-align: left;
 }
 
-/* --- WIDGET CONTENT --- */
 .widget-content {
     padding: 15px;
     display: flex;
@@ -54,107 +50,4 @@
     text-align: center;
     gap: 15px;
     min-height: 180px;
-}
-
-.pixel-icon {
-    width: 200px;
-    height: 200px;
-    image-rendering: pixelated; 
-    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1));
-}
-
-.pixel-temp {
-    display: block;
-    font-family: var(--font-pixel); 
-    font-size: 1.8rem;
-    font-weight: normal; 
-    color: var(--deep-blue);
-    margin-bottom: 5px;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-}
-
-.pixel-desc {
-    display: block;
-    font-family: var(--font-pixel);
-    font-size: 0.7rem;
-    font-weight: normal;
-    color: var(--dark-blue);
-    line-height: 1.4;
-    text-transform: uppercase;
-}
-.pixel-arrow {
-    cursor: pointer;
-    /* bestehende Styles beibehalten */
-}
-
-/* Falls die Liste standardmäßig noch sichtbar ist, erzwinge das Verstecken */
-.hidden {
-    display: none !important;
-}
-/* --- CLOTHING WIDGET STYLES --- */
-
-.list-content {
-    align-items: stretch !important;
-    padding: 20px !important;
-}
-
-.clothing-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-}
-
-.clothing-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    font-family: var(--font-pixel);
-    font-size: 0.7rem;
-    color: var(--deep-blue);
-    text-transform: uppercase;
-}
-
-.item-name {
-    flex-grow: 1;
-    text-align: left;
-    padding-left: 10px;
-}
-
-.pixel-item-icon {
-    width: 40px;
-    height: 40px;
-    image-rendering: pixelated; 
-    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); 
-}
-
-/* --- CUSTOM PIXEL CHECKBOX (Read-Only) --- */
-.pixel-checkbox {
-    width: 28px;
-    height: 28px;
-    border: 4px solid var(--deep-blue);
-    background-color: #fff;
-    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Das rote X wenn aktiv */
-.pixel-checkbox.checked::after {
-    content: 'X';
-    color: #d04e37;
-    font-size: 1.2rem;
-    font-weight: bold;
-    font-family: var(--font-pixel);
-    line-height: 1;
-    padding-top: 3px; 
-    padding-left: 2.5px;
-}
-
-.clothing-item.inactive {
-    opacity: 0.4;
 }
