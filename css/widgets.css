@@ -82,7 +82,15 @@
     line-height: 1.4;
     text-transform: uppercase;
 }
+.pixel-arrow {
+    cursor: pointer;
+    /* bestehende Styles beibehalten */
+}
 
+/* Falls die Liste standardmäßig noch sichtbar ist, erzwinge das Verstecken */
+.hidden {
+    display: none !important;
+}
 /* --- CLOTHING WIDGET STYLES --- */
 
 .list-content {
