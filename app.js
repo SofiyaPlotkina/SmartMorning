@@ -1,35 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('--- System Start: Smart Mirroring OS ---');
     // =================================================
-    // 1. DOM ELEMENTE (ORIGINAL)
+    // 1. DOM ELEMENTE & KONFIGURATION
     // =================================================
     const settingsBtn = document.getElementById('settings-btn');
     const settingsModal = document.getElementById('settings-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
-    // Inputs
     const seasonSelect = document.getElementById('season-select');
     const rainToggle = document.getElementById('rain-toggle');
     const snowToggle = document.getElementById('snow-toggle');
     const manualModeToggle = document.getElementById('manual-mode-toggle');
     const manualControlsContainer = document.getElementById('manual-controls-container');
-    // Manual Inputs (IDs müssen exakt mit HTML übereinstimmen!)
     const manualTempInput = document.getElementById('manual-temp-input');
     const manualWindInput = document.getElementById('manual-wind-input');
     const manualUVInput = document.getElementById('manual-uv-input');
     const manualRainProbInput = document.getElementById('manual-rain-prob-input');
-    // Search & Visuals
     const cityInput = document.getElementById('city-input');
     const cityDropdown = document.getElementById('city-dropdown');
     const locationList = document.getElementById('location-list');
+    const arrowBtn = document.querySelector('.pixel-arrow');
     const rainContainer = document.getElementById('rain-container');
     const snowContainer = document.getElementById('snow-container');
-    // Widgets
     const weatherIcon = document.getElementById('weather-icon');
     const weatherTemp = document.getElementById('weather-temp');
     const weatherDesc = document.getElementById('weather-desc');
     const API_KEY = 'ad0adc3f94b44bf9bad135212262301';
     // =================================================
-    // 2. HELPER (ORIGINAL)
+    // 2. HELPER FUNKTIONEN
     // =================================================
     function updateSnowAvailability() {
         const isWinter = seasonSelect.value === 'winter';
@@ -91,8 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return 'summer';
         }
     }
+    const toggleDropdown = (show) => {
+        if (show) {
+            locationList === null || locationList === void 0 ? void 0 : locationList.classList.remove('hidden');
+        }
+        else {
+            locationList === null || locationList === void 0 ? void 0 : locationList.classList.add('hidden');
+        }
+    };
     // =================================================
-    // 3. CORE LOGIC (ORIGINAL)
+    // 3. CORE LOGIC (WEATHER & DASHBOARD)
     // =================================================
     function updateDashboard(current, forecastDay, season) {
         if (weatherTemp)
@@ -145,29 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleItem('item-water', needWater);
         toggleItem('item-boots', needBoots);
     }
-    // =================================================
-    // 4. MANUAL MODE & API (ORIGINAL)
-    // =================================================
-    function applyManualSettings() {
-        const temp = manualTempInput ? parseFloat(manualTempInput.value) : 0;
-        const wind = manualWindInput ? parseFloat(manualWindInput.value) : 0;
-        const uv = manualUVInput ? parseFloat(manualUVInput.value) : 0;
-        const rainChance = manualRainProbInput ? parseFloat(manualRainProbInput.value) : 0;
-        const isRaining = rainToggle.checked;
-        const isSnowing = snowToggle.checked;
-        const fakeCurrent = {
-            temp_c: temp,
-            is_day: 1,
-            condition: {
-                text: isRaining ? "Manual Rain" : (isSnowing ? "Manual Snow" : "Manual Clear"),
-                code: isRaining ? 1183 : (isSnowing ? 1213 : 1000)
-            },
-            uv: uv,
-            wind_kph: wind
-        };
-        const fakeForecastDay = { daily_chance_of_rain: rainChance };
-        updateDashboard(fakeCurrent, fakeForecastDay, seasonSelect.value);
-    }
     async function fetchWeather() {
         if (manualModeToggle && manualModeToggle.checked) {
             applyManualSettings();
@@ -200,8 +182,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     // =================================================
-    // 5. EVENT LISTENERS & SETUP (ORIGINAL)
+    // 4. MANUAL MODE LOGIC
     // =================================================
+    function applyManualSettings() {
+        const temp = manualTempInput ? parseFloat(manualTempInput.value) : 0;
+        const wind = manualWindInput ? parseFloat(manualWindInput.value) : 0;
+        const uv = manualUVInput ? parseFloat(manualUVInput.value) : 0;
+        const rainChance = manualRainProbInput ? parseFloat(manualRainProbInput.value) : 0;
+        const isRaining = rainToggle.checked;
+        const isSnowing = snowToggle.checked;
+        const fakeCurrent = {
+            temp_c: temp,
+            is_day: 1,
+            condition: {
+                text: isRaining ? "Manual Rain" : (isSnowing ? "Manual Snow" : "Manual Clear"),
+                code: isRaining ? 1183 : (isSnowing ? 1213 : 1000)
+            },
+            uv: uv,
+            wind_kph: wind
+        };
+        const fakeForecastDay = { daily_chance_of_rain: rainChance };
+        updateDashboard(fakeCurrent, fakeForecastDay, seasonSelect.value);
+    }
     function setupPixelInput(inputId, upBtnId, downBtnId, step = 1) {
         const input = document.getElementById(inputId);
         const btnUp = document.getElementById(upBtnId);
@@ -248,79 +250,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-    if (manualModeToggle) {
-        manualModeToggle.addEventListener('change', () => {
-            if (manualModeToggle.checked) {
-                setManualControlsState(true);
-                applyManualSettings();
-            }
-            else {
-                setManualControlsState(false);
-                fetchWeather();
-            }
-        });
-    }
-    seasonSelect.addEventListener('change', () => {
-        updateSnowAvailability();
-        if (manualModeToggle.checked)
-            applyManualSettings();
-    });
-    rainToggle.addEventListener('change', () => {
-        if (rainToggle.checked)
-            snowToggle.checked = false;
-        if (manualModeToggle.checked)
-            applyManualSettings();
-    });
-    snowToggle.addEventListener('change', () => {
-        if (snowToggle.checked)
-            rainToggle.checked = false;
-        if (manualModeToggle.checked)
-            applyManualSettings();
-    });
-    if (settingsBtn)
-        settingsBtn.addEventListener('click', () => settingsModal === null || settingsModal === void 0 ? void 0 : settingsModal.classList.remove('hidden'));
-    if (closeModalBtn)
-        closeModalBtn.addEventListener('click', () => settingsModal === null || settingsModal === void 0 ? void 0 : settingsModal.classList.add('hidden'));
-    if (cityInput) {
-        cityInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                locationList === null || locationList === void 0 ? void 0 : locationList.classList.add('hidden');
-                fetchWeather();
-                cityInput.blur();
-            }
-        });
-    }
     // =================================================
-    // 6. SPOTIFY INTEGRATION (NEU)
+    // 5. SPOTIFY INTEGRATION
     // =================================================
-    // Config
     const SPOTIFY_CLIENT_ID = "1602d36c01c14ca4baeb37076594b651";
     const SPOTIFY_SCOPE = "user-read-currently-playing user-read-playback-state";
     const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize";
     const SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
     const SPOTIFY_API_URL = "https://api.spotify.com/v1/me/player/currently-playing";
-    // --- AUTH LOGIC (PKCE) ---
     async function initSpotifyAuth() {
         const redirectUri = window.location.origin + window.location.pathname;
-        // Prüfen: Kommen wir von Spotify zurück?
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
         if (code) {
-            console.log("Spotify: Auth Code erhalten. Tausche gegen Token...");
-            window.history.replaceState({}, document.title, redirectUri); // URL bereinigen
+            console.log("Spotify: Auth Code erhalten...");
+            window.history.replaceState({}, document.title, redirectUri);
             await exchangeCodeForToken(code, redirectUri);
-            window.location.reload(); // Refresh für sauberen Start
+            window.location.reload();
             return;
         }
-        // Token vorhanden?
         const token = localStorage.getItem("spotify_access_token");
         if (!token) {
-            console.log("Spotify: Kein Token. Starte Login...");
-            // Kurze Pause damit die Seite erst lädt
+            console.log("Spotify: Login erforderlich...");
             setTimeout(() => redirectToSpotify(redirectUri), 1000);
         }
         else {
-            console.log("Spotify: Token gefunden. Starte Player.");
             startPlayerLoop();
         }
     }
@@ -360,14 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveToken(data);
         }
         catch (e) {
-            console.error("Spotify Token Error", e);
+            console.error(e);
         }
     }
     async function refreshAccessToken() {
         const refreshToken = localStorage.getItem("spotify_refresh_token");
         if (!refreshToken) {
-            const redirectUri = window.location.origin + window.location.pathname;
-            redirectToSpotify(redirectUri);
+            redirectToSpotify(window.location.origin + window.location.pathname);
             return null;
         }
         const body = new URLSearchParams({
@@ -399,7 +352,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.refresh_token)
             localStorage.setItem("spotify_refresh_token", data.refresh_token);
     }
-    // --- HELPER CRYPTO ---
     function generateRandomString(length) {
         let text = "";
         const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -413,12 +365,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const digest = await window.crypto.subtle.digest('SHA-256', data);
         const bytes = new Uint8Array(digest);
         let binary = '';
-        for (let i = 0; i < bytes.byteLength; i++) {
+        for (let i = 0; i < bytes.byteLength; i++)
             binary += String.fromCharCode(bytes[i]);
-        }
         return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     }
-    // --- PLAYER LOOP & UI ---
     function startPlayerLoop() {
         const vinylWidget = document.querySelector('.vinyl-widget');
         const spotifyLink = document.getElementById('spotify-link');
@@ -428,22 +378,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkSpotify = async () => {
             let token = localStorage.getItem("spotify_access_token");
             const expiry = localStorage.getItem("spotify_token_expiry");
-            if (expiry && Date.now() > parseInt(expiry)) {
-                console.log("Token abgelaufen. Refresh...");
+            if (expiry && Date.now() > parseInt(expiry))
                 token = await refreshAccessToken();
-            }
             if (!token)
                 return;
             try {
-                const res = await fetch(SPOTIFY_API_URL, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (res.status === 204) { // Nichts spielt
+                const res = await fetch(SPOTIFY_API_URL, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 204) {
                     updateVinylUI(false, null, vinylWidget, trackName, artistName, albumArt, spotifyLink);
-                    return;
-                }
-                if (res.status === 401) { // Token Invalid
-                    await refreshAccessToken();
                     return;
                 }
                 const data = await res.json();
@@ -451,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateVinylUI(isPlaying, data.item, vinylWidget, trackName, artistName, albumArt, spotifyLink);
             }
             catch (e) {
-                console.error("Spotify Fetch Error", e);
+                console.error(e);
             }
         };
         setInterval(checkSpotify, 5000);
@@ -468,9 +410,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const artUrl = (_a = track.album.images[0]) === null || _a === void 0 ? void 0 : _a.url;
             if (imgArt && imgArt.src !== artUrl)
                 imgArt.src = artUrl;
-            const url = track.external_urls.spotify;
             if (link)
-                link.href = url;
+                link.href = track.external_urls.spotify;
         }
         else {
             widget === null || widget === void 0 ? void 0 : widget.classList.remove('is-playing');
@@ -481,8 +422,93 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     // =================================================
-    // INITIALIZATION
+    // 6. EVENT LISTENERS
     // =================================================
+    arrowBtn === null || arrowBtn === void 0 ? void 0 : arrowBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = locationList === null || locationList === void 0 ? void 0 : locationList.classList.contains('hidden');
+        toggleDropdown(!!isHidden);
+    });
+    cityInput === null || cityInput === void 0 ? void 0 : cityInput.addEventListener('input', async () => {
+        const query = cityInput.value.trim();
+        if (query.length < 2) {
+            toggleDropdown(false);
+            return;
+        }
+        try {
+            const response = await fetch(`https://api.weatherapi.com/v1/search.json?key=${API_KEY}&q=${query}`);
+            const data = await response.json();
+            if (locationList) {
+                locationList.innerHTML = '';
+                const uniqueCities = new Map();
+                data.forEach((item) => {
+                    const nameLower = item.name.toLowerCase();
+                    if (!(nameLower.includes('airport') || nameLower.includes('heliport'))) {
+                        const cityKey = `${item.name}-${item.country}`;
+                        if (!uniqueCities.has(cityKey))
+                            uniqueCities.set(cityKey, item);
+                    }
+                });
+                if (uniqueCities.size > 0) {
+                    uniqueCities.forEach((city) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${city.name} (${city.country})`;
+                        li.style.cursor = 'pointer';
+                        li.addEventListener('click', () => { cityInput.value = city.name; toggleDropdown(false); fetchWeather(); });
+                        locationList.appendChild(li);
+                    });
+                    toggleDropdown(true);
+                }
+                else {
+                    toggleDropdown(false);
+                }
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
+    document.addEventListener('click', (e) => {
+        if (!(cityDropdown === null || cityDropdown === void 0 ? void 0 : cityDropdown.contains(e.target)))
+            toggleDropdown(false);
+    });
+    if (manualModeToggle) {
+        manualModeToggle.addEventListener('change', () => {
+            if (manualModeToggle.checked) {
+                setManualControlsState(true);
+                applyManualSettings();
+            }
+            else {
+                setManualControlsState(false);
+                fetchWeather();
+            }
+        });
+    }
+    seasonSelect.addEventListener('change', () => {
+        updateSnowAvailability();
+        if (manualModeToggle.checked)
+            applyManualSettings();
+    });
+    rainToggle.addEventListener('change', () => {
+        if (rainToggle.checked)
+            snowToggle.checked = false;
+        if (manualModeToggle.checked)
+            applyManualSettings();
+    });
+    snowToggle.addEventListener('change', () => {
+        if (snowToggle.checked)
+            rainToggle.checked = false;
+        if (manualModeToggle.checked)
+            applyManualSettings();
+    });
+    if (settingsBtn)
+        settingsBtn.addEventListener('click', () => settingsModal === null || settingsModal === void 0 ? void 0 : settingsModal.classList.remove('hidden'));
+    if (closeModalBtn)
+        closeModalBtn.addEventListener('click', () => settingsModal === null || settingsModal === void 0 ? void 0 : settingsModal.classList.add('hidden'));
+    // =================================================
+    // 7. INITIALISIERUNG
+    // =================================================
+    toggleDropdown(false);
     fetchWeather();
     initSpotifyAuth();
 });
