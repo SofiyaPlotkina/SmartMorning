@@ -507,6 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModalBtn.addEventListener('click', () => settingsModal === null || settingsModal === void 0 ? void 0 : settingsModal.classList.add('hidden'));
     // =================================================
     // 7. INITIALISIERUNG
+    //test line
     // =================================================
     toggleDropdown(false);
     fetchWeather();
